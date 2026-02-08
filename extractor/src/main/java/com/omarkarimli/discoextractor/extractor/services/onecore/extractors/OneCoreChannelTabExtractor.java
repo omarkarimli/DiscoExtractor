@@ -3,8 +3,7 @@ package com.omarkarimli.discoextractor.extractor.services.onecore.extractors;
 import com.grack.nanojson.JsonArray;
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonWriter;
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.MultiInfoItemsCollector;
 import com.omarkarimli.discoextractor.extractor.Page;
@@ -21,14 +20,6 @@ import com.omarkarimli.discoextractor.extractor.search.filter.FilterItem;
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreChannelHelper;
 import com.omarkarimli.discoextractor.extractor.services.onecore.linkHandler.OneCoreChannelTabLinkHandlerFactory;
 import com.omarkarimli.discoextractor.extractor.utils.JsonUtils;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Consumer;
-
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.ChannelResponseData;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.DISABLE_PRETTY_PRINT_PARAMETER;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.ONECOREI_V1_URL;
@@ -38,6 +29,12 @@ import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreP
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.prepareDesktopJsonBuilder;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.resolveChannelId;
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class OneCoreChannelTabExtractor extends ChannelTabExtractor {
     private JsonObject jsonResponse;

@@ -8,9 +8,7 @@ import com.grack.nanojson.JsonArray;
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
-
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.MultiInfoItemsCollector;
 import com.omarkarimli.discoextractor.extractor.Page;
@@ -21,9 +19,7 @@ import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
 import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
 import com.omarkarimli.discoextractor.extractor.linkhandler.ChannelTabs;
 import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
-
 import java.io.IOException;
-
 import javax.annotation.Nonnull;
 
 public class BilibiliChannelTabExtractor extends ChannelTabExtractor {

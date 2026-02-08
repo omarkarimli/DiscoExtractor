@@ -5,8 +5,7 @@ import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.InfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.InfoItemsCollector;
@@ -17,8 +16,7 @@ import com.omarkarimli.discoextractor.extractor.StreamingService;
 import com.omarkarimli.discoextractor.extractor.channel.StaffInfoItem;
 import com.omarkarimli.discoextractor.extractor.downloader.CancellableCall;
 import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
-import org.schabi.newpipe.extractor.exceptions.*;
-
+import com.omarkarimli.discoextractor.extractor.exceptions.*;
 import com.omarkarimli.discoextractor.extractor.exceptions.ContentNotAvailableException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
 import com.omarkarimli.discoextractor.extractor.exceptions.GeographicRestrictionException;
@@ -31,8 +29,7 @@ import com.omarkarimli.discoextractor.extractor.services.bilibili.BilibiliServic
 import com.omarkarimli.discoextractor.extractor.services.bilibili.WatchDataCache;
 import com.omarkarimli.discoextractor.extractor.services.bilibili.linkHandler.BilibiliChannelLinkHandlerFactory;
 import com.omarkarimli.discoextractor.extractor.services.bilibili.utils;
-import org.schabi.newpipe.extractor.stream.*;
-
+import com.omarkarimli.discoextractor.extractor.stream.*;
 import com.omarkarimli.discoextractor.extractor.stream.AudioStream;
 import com.omarkarimli.discoextractor.extractor.stream.DeliveryMethod;
 import com.omarkarimli.discoextractor.extractor.stream.Description;
@@ -45,7 +42,12 @@ import com.omarkarimli.discoextractor.extractor.stream.StreamType;
 import com.omarkarimli.discoextractor.extractor.stream.SubtitlesStream;
 import com.omarkarimli.discoextractor.extractor.stream.VideoStream;
 import com.omarkarimli.discoextractor.extractor.utils.Utils;
-
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.BilibiliService.*;
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.bv2av;
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.createQueryString;
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.formatParamWithPercentSpace;
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.getDmImgParams;
+import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.getWbiResult;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -55,13 +57,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.BilibiliService.*;
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.bv2av;
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.createQueryString;
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.formatParamWithPercentSpace;
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.getDmImgParams;
-import static com.omarkarimli.discoextractor.extractor.services.bilibili.utils.getWbiResult;
 
 public class BillibiliStreamExtractor extends StreamExtractor {
 

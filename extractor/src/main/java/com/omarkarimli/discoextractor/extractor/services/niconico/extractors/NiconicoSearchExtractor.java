@@ -1,16 +1,13 @@
 package com.omarkarimli.discoextractor.extractor.services.niconico.extractors;
 
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
-
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.MultiInfoItemsCollector;
 import com.omarkarimli.discoextractor.extractor.Page;
@@ -22,13 +19,11 @@ import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandler;
 import com.omarkarimli.discoextractor.extractor.search.SearchExtractor;
 import com.omarkarimli.discoextractor.extractor.services.bilibili.utils;
 import com.omarkarimli.discoextractor.extractor.services.niconico.NiconicoService;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 
 public class NiconicoSearchExtractor extends SearchExtractor {

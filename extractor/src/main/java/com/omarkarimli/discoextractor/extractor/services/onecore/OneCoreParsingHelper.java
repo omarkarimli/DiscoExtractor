@@ -204,7 +204,7 @@ public final class OneCoreParsingHelper {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private static Optional<Boolean> hardcodedClientVersionValid = Optional.empty();
 
-    private static final String[] INNERTUBE_CONTEXT_CLIENT_VERSION_REGEXES =
+    private static final String[] DISCOCORE_CONTEXT_CLIENT_VERSION_REGEXES =
             {"INNERTUBE_CONTEXT_CLIENT_VERSION\":\"([0-9\\.]+?)\"",
                     "innertube_context_client_version\":\"([0-9\\.]+?)\"",
                     "client.version=([0-9\\.]+)"};
@@ -592,7 +592,7 @@ public final class OneCoreParsingHelper {
         final String response = getDownloader().get(url, headers).responseBody();
         try {
             clientVersion = getStringResultFromRegexArray(response,
-                    INNERTUBE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
+                    DISCOCORE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
         } catch (final Parser.RegexException e) {
             throw new ParsingException("Could not extract YouTube WEB InnerTube client version "
                     + "from sw.js", e);
@@ -625,7 +625,7 @@ public final class OneCoreParsingHelper {
         if (clientVersion == null) {
             try {
                 clientVersion = getStringResultFromRegexArray(html,
-                        INNERTUBE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
+                        DISCOCORE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
             } catch (final Parser.RegexException ignored) {
             }
         }
@@ -784,13 +784,13 @@ public final class OneCoreParsingHelper {
             final String response = getDownloader().get(url, headers).responseBody();
 
             oneCoreMusicClientVersion = getStringResultFromRegexArray(response,
-                    INNERTUBE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
+                    DISCOCORE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
         } catch (final Exception e) {
             final String url = "https://music.youtube.com/?ucbcb=1";
             final String html = getDownloader().get(url, getCookieHeader()).responseBody();
 
             oneCoreMusicClientVersion = getStringResultFromRegexArray(html,
-                    INNERTUBE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
+                    DISCOCORE_CONTEXT_CLIENT_VERSION_REGEXES, 1);
         }
 
         return oneCoreMusicClientVersion;
@@ -1242,7 +1242,7 @@ public final class OneCoreParsingHelper {
             final byte[] body,
             @Nonnull final Localization localization,
             @Nonnull final String userAgent,
-            @Nonnull final String innerTubeApiKey,
+            @Nonnull final String discoCoreApiKey,
             @Nullable final String endPartOfUrlRequest) throws IOException, ExtractionException {
         final Map<String, List<String>> headers = new HashMap<>();
         headers.put("Content-Type", singletonList("application/json"));
@@ -2253,23 +2253,23 @@ public final class OneCoreParsingHelper {
     }
 
     @Nonnull
-    public static String getVisitorDataFromInnertube(
-            @Nonnull final InnertubeClientRequestInfo innertubeClientRequestInfo,
+    public static String getVisitorDataFromDiscoCore(
+            @Nonnull final DiscoCoreClientRequestInfo discoCoreClientRequestInfo,
             @Nonnull final Localization localization,
             @Nonnull final ContentCountry contentCountry,
             @Nonnull final Map<String, List<String>> httpHeaders,
-            @Nonnull final String innertubeDomainAndVersionEndpoint,
+            @Nonnull final String discoCoreDomainAndVersionEndpoint,
             @Nullable final String embedUrl,
             final boolean useGuideEndpoint) throws IOException, ExtractionException {
         final JsonBuilder<JsonObject> builder = prepareJsonBuilder(
-                localization, contentCountry, innertubeClientRequestInfo, embedUrl);
+                localization, contentCountry, discoCoreClientRequestInfo, embedUrl);
 
         final byte[] body = JsonWriter.string(builder.done())
                 .getBytes(StandardCharsets.UTF_8);
 
         final String visitorData = JsonUtils.toJsonObject(getValidJsonResponseBody(getDownloader()
                 .post(
-                        innertubeDomainAndVersionEndpoint
+                        discoCoreDomainAndVersionEndpoint
                                 + (useGuideEndpoint ? "guide" : "visitor_id") + "?"
                                 + DISABLE_PRETTY_PRINT_PARAMETER,
                         httpHeaders, body)))
@@ -2287,35 +2287,35 @@ public final class OneCoreParsingHelper {
     static JsonBuilder<JsonObject> prepareJsonBuilder(
             @Nonnull final Localization localization,
             @Nonnull final ContentCountry contentCountry,
-            @Nonnull final InnertubeClientRequestInfo innertubeClientRequestInfo,
+            @Nonnull final DiscoCoreClientRequestInfo discoCoreClientRequestInfo,
             @Nullable final String embedUrl) {
         final JsonBuilder<JsonObject> builder = JsonObject.builder()
                 .object("context")
                 .object("client")
-                .value("clientName", innertubeClientRequestInfo.clientInfo.clientName)
-                .value("clientVersion", innertubeClientRequestInfo.clientInfo.clientVersion)
-                .value("clientScreen", innertubeClientRequestInfo.clientInfo.clientScreen)
-                .value("platform", innertubeClientRequestInfo.deviceInfo.platform);
+                .value("clientName", discoCoreClientRequestInfo.clientInfo.clientName)
+                .value("clientVersion", discoCoreClientRequestInfo.clientInfo.clientVersion)
+                .value("clientScreen", discoCoreClientRequestInfo.clientInfo.clientScreen)
+                .value("platform", discoCoreClientRequestInfo.deviceInfo.platform);
 
-        if (innertubeClientRequestInfo.clientInfo.visitorData != null) {
-            builder.value("visitorData", innertubeClientRequestInfo.clientInfo.visitorData);
+        if (discoCoreClientRequestInfo.clientInfo.visitorData != null) {
+            builder.value("visitorData", discoCoreClientRequestInfo.clientInfo.visitorData);
         }
 
-        if (innertubeClientRequestInfo.deviceInfo.deviceMake != null) {
-            builder.value("deviceMake", innertubeClientRequestInfo.deviceInfo.deviceMake);
+        if (discoCoreClientRequestInfo.deviceInfo.deviceMake != null) {
+            builder.value("deviceMake", discoCoreClientRequestInfo.deviceInfo.deviceMake);
         }
-        if (innertubeClientRequestInfo.deviceInfo.deviceModel != null) {
-            builder.value("deviceModel", innertubeClientRequestInfo.deviceInfo.deviceModel);
+        if (discoCoreClientRequestInfo.deviceInfo.deviceModel != null) {
+            builder.value("deviceModel", discoCoreClientRequestInfo.deviceInfo.deviceModel);
         }
-        if (innertubeClientRequestInfo.deviceInfo.osName != null) {
-            builder.value("osName", innertubeClientRequestInfo.deviceInfo.osName);
+        if (discoCoreClientRequestInfo.deviceInfo.osName != null) {
+            builder.value("osName", discoCoreClientRequestInfo.deviceInfo.osName);
         }
-        if (innertubeClientRequestInfo.deviceInfo.osVersion != null) {
-            builder.value("osVersion", innertubeClientRequestInfo.deviceInfo.osVersion);
+        if (discoCoreClientRequestInfo.deviceInfo.osVersion != null) {
+            builder.value("osVersion", discoCoreClientRequestInfo.deviceInfo.osVersion);
         }
-        if (innertubeClientRequestInfo.deviceInfo.androidSdkVersion > 0) {
+        if (discoCoreClientRequestInfo.deviceInfo.androidSdkVersion > 0) {
             builder.value("androidSdkVersion",
-                    innertubeClientRequestInfo.deviceInfo.androidSdkVersion);
+                    discoCoreClientRequestInfo.deviceInfo.androidSdkVersion);
         }
 
         builder.value("hl", localization.getLocalizationCode())

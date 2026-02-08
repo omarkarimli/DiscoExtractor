@@ -1,7 +1,6 @@
 package com.omarkarimli.discoextractor.extractor.search;
 
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.ListExtractor;
 import com.omarkarimli.discoextractor.extractor.MetaInfo;
@@ -11,13 +10,11 @@ import com.omarkarimli.discoextractor.extractor.StreamingService;
 import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
 import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandler;
-
+import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
 
 public abstract class SearchExtractor extends ListExtractor<InfoItem> {
 

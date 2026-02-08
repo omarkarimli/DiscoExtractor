@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 // TODO: add docs
 
-public final class InnertubeClientRequestInfo {
+public final class DiscoCoreClientRequestInfo {
 
     @Nonnull
     public ClientInfo clientInfo;
@@ -86,47 +86,47 @@ public final class InnertubeClientRequestInfo {
         }
     }
 
-    private InnertubeClientRequestInfo(@Nonnull final ClientInfo clientInfo,
+    private DiscoCoreClientRequestInfo(@Nonnull final ClientInfo clientInfo,
                                        @Nonnull final DeviceInfo deviceInfo) {
         this.clientInfo = clientInfo;
         this.deviceInfo = deviceInfo;
     }
 
     @Nonnull
-    public static InnertubeClientRequestInfo ofWebClient() {
-        return new InnertubeClientRequestInfo(
-                new InnertubeClientRequestInfo.ClientInfo(
+    public static DiscoCoreClientRequestInfo ofWebClient() {
+        return new DiscoCoreClientRequestInfo(
+                new DiscoCoreClientRequestInfo.ClientInfo(
                         WEB_CLIENT_NAME, WEB_HARDCODED_CLIENT_VERSION, WATCH_CLIENT_SCREEN,
                         WEB_CLIENT_ID, null),
-                new InnertubeClientRequestInfo.DeviceInfo(DESKTOP_CLIENT_PLATFORM, null, null,
+                new DiscoCoreClientRequestInfo.DeviceInfo(DESKTOP_CLIENT_PLATFORM, null, null,
                         null, null, -1));
     }
 
     @Nonnull
-    public static InnertubeClientRequestInfo ofWebEmbeddedPlayerClient() {
-        return new InnertubeClientRequestInfo(
-                new InnertubeClientRequestInfo.ClientInfo(WEB_EMBEDDED_CLIENT_NAME,
+    public static DiscoCoreClientRequestInfo ofWebEmbeddedPlayerClient() {
+        return new DiscoCoreClientRequestInfo(
+                new DiscoCoreClientRequestInfo.ClientInfo(WEB_EMBEDDED_CLIENT_NAME,
                         WEB_REMIX_HARDCODED_CLIENT_VERSION, EMBED_CLIENT_SCREEN,
                         WEB_EMBEDDED_CLIENT_ID, null),
-                new InnertubeClientRequestInfo.DeviceInfo(DESKTOP_CLIENT_PLATFORM, null, null,
+                new DiscoCoreClientRequestInfo.DeviceInfo(DESKTOP_CLIENT_PLATFORM, null, null,
                         null, null, -1));
     }
 
     @Nonnull
-    public static InnertubeClientRequestInfo ofAndroidClient() {
-        return new InnertubeClientRequestInfo(
-                new InnertubeClientRequestInfo.ClientInfo(ANDROID_CLIENT_NAME,
+    public static DiscoCoreClientRequestInfo ofAndroidClient() {
+        return new DiscoCoreClientRequestInfo(
+                new DiscoCoreClientRequestInfo.ClientInfo(ANDROID_CLIENT_NAME,
                         ANDROID_CLIENT_VERSION, WATCH_CLIENT_SCREEN, ANDROID_CLIENT_ID, null),
-                new InnertubeClientRequestInfo.DeviceInfo(MOBILE_CLIENT_PLATFORM, null, null,
+                new DiscoCoreClientRequestInfo.DeviceInfo(MOBILE_CLIENT_PLATFORM, null, null,
                         "Android", "15", 35));
     }
 
     @Nonnull
-    public static InnertubeClientRequestInfo ofIosClient() {
-        return new InnertubeClientRequestInfo(
-                new InnertubeClientRequestInfo.ClientInfo(IOS_CLIENT_NAME, IOS_CLIENT_VERSION,
+    public static DiscoCoreClientRequestInfo ofIosClient() {
+        return new DiscoCoreClientRequestInfo(
+                new DiscoCoreClientRequestInfo.ClientInfo(IOS_CLIENT_NAME, IOS_CLIENT_VERSION,
                         WATCH_CLIENT_SCREEN, IOS_CLIENT_ID, null),
-                new InnertubeClientRequestInfo.DeviceInfo(MOBILE_CLIENT_PLATFORM, "Apple",
+                new DiscoCoreClientRequestInfo.DeviceInfo(MOBILE_CLIENT_PLATFORM, "Apple",
                         IOS_DEVICE_MODEL, "iOS", IOS_OS_VERSION, -1));
     }
 }

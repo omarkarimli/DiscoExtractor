@@ -1,31 +1,10 @@
-/*
- * Created by Christian Schabesberger on 06.08.15.
- *
- * Copyright (C) Christian Schabesberger 2019 <chris.schabesberger@mailbox.org>
- * YoutubeStreamExtractor.java is part of NewPipe Extractor.
- *
- * NewPipe Extractor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * NewPipe Extractor is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with NewPipe Extractor. If not, see <https://www.gnu.org/licenses/>.
- */
-
 package com.omarkarimli.discoextractor.extractor.services.onecore.extractors;
 
 import com.grack.nanojson.*;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.Image;
 import com.omarkarimli.discoextractor.extractor.MediaFormat;
 import com.omarkarimli.discoextractor.extractor.MetaInfo;
@@ -35,8 +14,7 @@ import com.omarkarimli.discoextractor.extractor.StreamingService;
 import com.omarkarimli.discoextractor.extractor.downloader.CancellableCall;
 import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
 import com.omarkarimli.discoextractor.extractor.downloader.Response;
-import org.schabi.newpipe.extractor.exceptions.*;
-
+import com.omarkarimli.discoextractor.extractor.exceptions.*;
 import com.omarkarimli.discoextractor.extractor.exceptions.AgeRestrictedContentException;
 import com.omarkarimli.discoextractor.extractor.exceptions.AntiBotException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ContentNotAvailableException;
@@ -49,15 +27,14 @@ import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
 import com.omarkarimli.discoextractor.extractor.exceptions.PrivateContentException;
 import com.omarkarimli.discoextractor.extractor.exceptions.VideoNotReleaseException;
 import com.omarkarimli.discoextractor.extractor.linkhandler.LinkHandler;
-import org.schabi.newpipe.extractor.localization.*;
-import org.schabi.newpipe.extractor.services.onecore.*;
-
+import com.omarkarimli.discoextractor.extractor.localization.*;
+import com.omarkarimli.discoextractor.extractor.services.onecore.*;
 import com.omarkarimli.discoextractor.extractor.localization.ContentCountry;
 import com.omarkarimli.discoextractor.extractor.localization.DateWrapper;
 import com.omarkarimli.discoextractor.extractor.localization.Localization;
 import com.omarkarimli.discoextractor.extractor.localization.TimeAgoParser;
 import com.omarkarimli.discoextractor.extractor.localization.TimeAgoPatternsManager;
-import com.omarkarimli.discoextractor.extractor.services.onecore.InnertubeClientRequestInfo;
+import com.omarkarimli.discoextractor.extractor.services.onecore.DiscoCoreClientRequestInfo;
 import com.omarkarimli.discoextractor.extractor.services.onecore.ItagItem;
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreApiDecoder;
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreJavaScriptPlayerManager;
@@ -65,8 +42,7 @@ import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingH
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreThrottlingParameterUtils;
 import com.omarkarimli.discoextractor.extractor.services.onecore.WatchDataCache;
 import com.omarkarimli.discoextractor.extractor.services.onecore.linkHandler.OneCoreChannelLinkHandlerFactory;
-import org.schabi.newpipe.extractor.stream.*;
-
+import com.omarkarimli.discoextractor.extractor.stream.*;
 import com.omarkarimli.discoextractor.extractor.stream.AudioStream;
 import com.omarkarimli.discoextractor.extractor.stream.DeliveryMethod;
 import com.omarkarimli.discoextractor.extractor.stream.Description;
@@ -82,10 +58,8 @@ import com.omarkarimli.discoextractor.extractor.utils.Pair;
 import com.omarkarimli.discoextractor.extractor.utils.Parser;
 import com.omarkarimli.discoextractor.extractor.utils.SubtitleDeduplicator;
 import com.omarkarimli.discoextractor.extractor.utils.Utils;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
@@ -95,7 +69,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 import static java.util.Collections.singletonList;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.ItagItem.APPROX_DURATION_MS_UNKNOWN;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.ItagItem.CONTENT_LENGTH_UNKNOWN;
@@ -1138,15 +1111,15 @@ public class OneCoreStreamExtractor extends StreamExtractor {
                                               @Nonnull final Localization localization,
                                               @Nonnull final String videoId)
             throws IOException, ExtractionException {
-        final InnertubeClientRequestInfo innertubeClientRequestInfo =
-                InnertubeClientRequestInfo.ofAndroidClient();
+        final DiscoCoreClientRequestInfo discoCoreClientRequestInfo =
+                DiscoCoreClientRequestInfo.ofAndroidClient();
 
         final Map<String, List<String>> headers = new HashMap<>();
         headers.put("Content-Type", singletonList("application/json"));
         headers.put("User-Agent", singletonList(getAndroidUserAgent(localization)));
         headers.put("X-Goog-Api-Format-Version", singletonList("2"));
 
-        String visitorData = OneCoreParsingHelper.getVisitorDataFromInnertube(innertubeClientRequestInfo,
+        String visitorData = OneCoreParsingHelper.getVisitorDataFromDiscoCore(discoCoreClientRequestInfo,
                 localization, contentCountry, headers, ONECOREI_V1_GAPIS_URL, null, false);
         androidCpn = generateContentPlaybackNonce();
         final byte[] mobileBody = JsonWriter.string(

@@ -2,9 +2,8 @@ import com.grack.nanojson.JsonArray;
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
-import org.schabi.newpipe.extractor.timeago.PatternsHolder;
-import org.schabi.newpipe.extractor.timeago.TimeAgoUnit;
-
+import com.omarkarimli.discoextractor.extractor.timeago.PatternsHolder;
+import com.omarkarimli.discoextractor.extractor.timeago.TimeAgoUnit;
 import java.io.*;
 import java.util.*;
 

@@ -1,7 +1,6 @@
 package com.omarkarimli.discoextractor.extractor.stream;
 
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.Image;
 import com.omarkarimli.discoextractor.extractor.Info;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
@@ -19,7 +18,6 @@ import com.omarkarimli.discoextractor.extractor.sponsorblock.SponsorBlockApiSett
 import com.omarkarimli.discoextractor.extractor.sponsorblock.SponsorBlockExtractorHelper;
 import com.omarkarimli.discoextractor.extractor.sponsorblock.SponsorBlockSegment;
 import com.omarkarimli.discoextractor.extractor.utils.ExtractorHelper;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -30,36 +28,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-
 import javax.annotation.Nonnull;
-
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
 
-/*
- * Created by Christian Schabesberger on 26.08.15.
- *
- * Copyright (C) Christian Schabesberger 2016 <chris.schabesberger@mailbox.org>
- * StreamInfo.java is part of NewPipe Extractor.
- *
- * NewPipe Extractor is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * NewPipe Extractor is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with NewPipe Extractor. If not, see <https://www.gnu.org/licenses/>.
- */
-
-/**
- * Info object for opened contents, i.e. the content ready to play.
- */
 public class StreamInfo extends Info {
-
     public StreamInfo() {
         super(-1, "", "", "", "");
     }

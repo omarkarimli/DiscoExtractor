@@ -3,15 +3,13 @@ package com.omarkarimli.discoextractor.extractor.services.niconico.extractors;
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import com.omarkarimli.discoextractor.extractor.ServiceList;
 import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
 import com.omarkarimli.discoextractor.extractor.downloader.Response;
-import org.schabi.newpipe.extractor.exceptions.*;
-
+import com.omarkarimli.discoextractor.extractor.exceptions.*;
 import com.omarkarimli.discoextractor.extractor.exceptions.ContentNotAvailableException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
 import com.omarkarimli.discoextractor.extractor.exceptions.GeographicRestrictionException;
@@ -20,12 +18,10 @@ import com.omarkarimli.discoextractor.extractor.exceptions.PaidContentException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
 import com.omarkarimli.discoextractor.extractor.exceptions.ReCaptchaException;
 import com.omarkarimli.discoextractor.extractor.services.niconico.NiconicoService;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 
 public class NiconicoWatchDataCache {

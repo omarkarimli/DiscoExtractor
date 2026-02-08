@@ -1,6 +1,6 @@
 package com.omarkarimli.discoextractor.extractor.playlist;
 
-import org.schabi.newpipe.extractor.*;
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.ListExtractor.InfoItemsPage;
 import com.omarkarimli.discoextractor.extractor.ListInfo;
 import com.omarkarimli.discoextractor.extractor.NewPipe;
@@ -13,7 +13,6 @@ import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper;
 import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItem;
 import com.omarkarimli.discoextractor.extractor.utils.ExtractorHelper;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

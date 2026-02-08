@@ -1,12 +1,10 @@
 package com.omarkarimli.discoextractor.extractor.services.niconico.extractors;
 
 import com.grack.nanojson.*;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.InfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.InfoItemsCollector;
@@ -49,7 +47,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

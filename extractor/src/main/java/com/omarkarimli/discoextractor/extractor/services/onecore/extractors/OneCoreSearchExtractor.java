@@ -1,5 +1,13 @@
 package com.omarkarimli.discoextractor.extractor.services.onecore.extractors;
 
+import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
+import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
+import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandler;
+import com.omarkarimli.discoextractor.extractor.localization.Localization;
+import com.omarkarimli.discoextractor.extractor.localization.TimeAgoParser;
+import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper;
+import com.omarkarimli.discoextractor.extractor.utils.JsonUtils;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.DISABLE_PRETTY_PRINT_PARAMETER;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.ONECOREI_V1_URL;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.getJsonPostResponse;
@@ -8,9 +16,7 @@ import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreP
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.prepareDesktopJsonBuilder;
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.UTF_8;
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
-
-import org.schabi.newpipe.extractor.*;
-
+import com.omarkarimli.discoextractor.extractor.*;
 import com.omarkarimli.discoextractor.extractor.InfoItem;
 import com.omarkarimli.discoextractor.extractor.MetaInfo;
 import com.omarkarimli.discoextractor.extractor.MultiInfoItemsCollector;
@@ -23,20 +29,9 @@ import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
 import com.grack.nanojson.JsonWriter;
-
-import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
-import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
-import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
-import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandler;
-import com.omarkarimli.discoextractor.extractor.localization.Localization;
-import com.omarkarimli.discoextractor.extractor.localization.TimeAgoParser;
-import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper;
-import com.omarkarimli.discoextractor.extractor.utils.JsonUtils;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 
 public class OneCoreSearchExtractor extends OneCoreBaseSearchExtractor {
