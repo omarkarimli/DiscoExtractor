@@ -1,0 +1,56 @@
+package com.omarkarimli.discoextractor.extractor.services.bandcamp.extractors;
+
+import org.jsoup.nodes.Element;
+import com.omarkarimli.discoextractor.extractor.comments.CommentsInfoItemExtractor;
+import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+
+import java.util.Objects;
+
+public class BandcampCommentsInfoItemExtractor implements CommentsInfoItemExtractor {
+
+    private final Element writing;
+    private final String url;
+
+    public BandcampCommentsInfoItemExtractor(final Element writing, final String url) {
+        this.writing = writing;
+        this.url = url;
+    }
+
+    @Override
+    public String getName() throws ParsingException {
+        return getCommentText();
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String getThumbnailUrl() throws ParsingException {
+        return writing.getElementsByClass("thumb").attr("src");
+    }
+
+    @Override
+    public String getCommentText() throws ParsingException {
+        return writing.getElementsByClass("text").stream()
+                .filter(Objects::nonNull)
+                .map(Element::ownText)
+                .findFirst()
+                .orElseThrow(() -> new ParsingException("Could not get comment text"));
+    }
+
+    @Override
+    public String getUploaderName() throws ParsingException {
+        return writing.getElementsByClass("name").stream()
+                .filter(Objects::nonNull)
+                .map(Element::text)
+                .findFirst()
+                .orElseThrow(() -> new ParsingException("Could not get uploader name"));
+    }
+
+    @Override
+    public String getUploaderAvatarUrl() {
+        return writing.getElementsByClass("thumb").attr("src");
+    }
+}

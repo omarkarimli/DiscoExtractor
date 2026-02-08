@@ -1,0 +1,94 @@
+package com.omarkarimli.discoextractor.extractor.services.peertube.extractors;
+
+import com.grack.nanojson.JsonArray;
+import com.grack.nanojson.JsonObject;
+import com.grack.nanojson.JsonParser;
+import com.omarkarimli.discoextractor.extractor.InfoItem;
+import com.omarkarimli.discoextractor.extractor.MultiInfoItemsCollector;
+import com.omarkarimli.discoextractor.extractor.Page;
+import com.omarkarimli.discoextractor.extractor.StreamingService;
+import com.omarkarimli.discoextractor.extractor.channel.ChannelTabExtractor;
+import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
+import com.omarkarimli.discoextractor.extractor.downloader.Response;
+import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
+import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ChannelTabs;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
+import com.omarkarimli.discoextractor.extractor.services.peertube.PeertubeParsingHelper;
+import com.omarkarimli.discoextractor.extractor.services.peertube.linkHandler.PeertubeChannelLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+
+import static com.omarkarimli.discoextractor.extractor.services.peertube.PeertubeParsingHelper.COUNT_KEY;
+import static com.omarkarimli.discoextractor.extractor.services.peertube.PeertubeParsingHelper.ITEMS_PER_PAGE;
+import static com.omarkarimli.discoextractor.extractor.services.peertube.PeertubeParsingHelper.START_KEY;
+import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
+
+public class PeertubeChannelTabExtractor extends ChannelTabExtractor {
+    private final String baseUrl;
+
+    public PeertubeChannelTabExtractor(final StreamingService service,
+                                       final ListLinkHandler linkHandler)
+            throws ParsingException {
+        super(service, linkHandler);
+        baseUrl = getBaseUrl();
+    }
+
+    @Override
+    public void onFetchPage(final @Nonnull Downloader downloader) throws ParsingException {
+        if (!getTab().equals(ChannelTabs.PLAYLISTS)) {
+            throw new ParsingException("tab " + getTab() + " not supported");
+        }
+    }
+
+    @Nonnull
+    @Override
+    public InfoItemsPage<InfoItem> getInitialPage()
+            throws IOException, ExtractionException {
+        return getPage(new Page(baseUrl + PeertubeChannelLinkHandlerFactory.API_ENDPOINT + getId()
+                + "/video-playlists?" + START_KEY + "=0&" + COUNT_KEY + "=" + ITEMS_PER_PAGE));
+    }
+
+    @Override
+    public InfoItemsPage<InfoItem> getPage(final Page page)
+            throws IOException, ExtractionException {
+        if (page == null || isNullOrEmpty(page.getUrl())) {
+            throw new IllegalArgumentException("Page doesn't contain an URL");
+        }
+
+        final Response response = getDownloader().get(page.getUrl());
+
+        JsonObject pageJson = null;
+        if (response != null && !Utils.isBlank(response.responseBody())) {
+            try {
+                pageJson = JsonParser.object().from(response.responseBody());
+            } catch (final Exception e) {
+                throw new ParsingException("Could not parse json data for account info", e);
+            }
+        }
+
+        if (pageJson == null) {
+            throw new ExtractionException("Unable to get channel playlist list");
+        }
+
+        PeertubeParsingHelper.validate(pageJson);
+
+        final MultiInfoItemsCollector collector = new MultiInfoItemsCollector(getServiceId());
+        final JsonArray contents = pageJson.getArray("data");
+        if (contents == null) {
+            throw new ParsingException("Unable to extract channel playlist list");
+        }
+
+        for (final Object c : contents) {
+            if (c instanceof JsonObject) {
+                collector.commit(new PeertubePlaylistInfoItemExtractor((JsonObject) c, baseUrl));
+            }
+        }
+
+        return new InfoItemsPage<>(
+                collector, PeertubeParsingHelper.getNextPage(page.getUrl(),
+                pageJson.getLong("total")));
+    }
+}

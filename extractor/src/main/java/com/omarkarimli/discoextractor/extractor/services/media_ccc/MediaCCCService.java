@@ -1,0 +1,167 @@
+package com.omarkarimli.discoextractor.extractor.services.media_ccc;
+
+import com.omarkarimli.discoextractor.extractor.StreamingService;
+import com.omarkarimli.discoextractor.extractor.channel.ChannelExtractor;
+import com.omarkarimli.discoextractor.extractor.channel.ChannelTabExtractor;
+import com.omarkarimli.discoextractor.extractor.comments.CommentsExtractor;
+import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
+import com.omarkarimli.discoextractor.extractor.kiosk.KioskList;
+import com.omarkarimli.discoextractor.extractor.linkhandler.LinkHandler;
+import com.omarkarimli.discoextractor.extractor.linkhandler.LinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandler;
+import com.omarkarimli.discoextractor.extractor.linkhandler.SearchQueryHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.playlist.PlaylistExtractor;
+import com.omarkarimli.discoextractor.extractor.search.SearchExtractor;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCConferenceExtractor;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCConferenceKiosk;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCLiveStreamExtractor;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCLiveStreamKiosk;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCParsingHelper;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCRecentKiosk;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCSearchExtractor;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.extractors.MediaCCCStreamExtractor;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCConferenceLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCConferencesListLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCLiveListLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCRecentListLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCSearchQueryHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.media_ccc.linkHandler.MediaCCCStreamLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.stream.StreamExtractor;
+import com.omarkarimli.discoextractor.extractor.subscription.SubscriptionExtractor;
+import com.omarkarimli.discoextractor.extractor.suggestion.SuggestionExtractor;
+
+import static java.util.Arrays.asList;
+import static com.omarkarimli.discoextractor.extractor.StreamingService.ServiceInfo.MediaCapability.AUDIO;
+import static com.omarkarimli.discoextractor.extractor.StreamingService.ServiceInfo.MediaCapability.VIDEO;
+
+public class MediaCCCService extends StreamingService {
+    public MediaCCCService(final int id) {
+        super(id, "media.ccc.de", asList(AUDIO, VIDEO));
+    }
+
+    @Override
+    public SearchExtractor getSearchExtractor(final SearchQueryHandler query) {
+        return new MediaCCCSearchExtractor(this, query);
+    }
+
+    @Override
+    public LinkHandlerFactory getStreamLHFactory() {
+        return new MediaCCCStreamLinkHandlerFactory();
+    }
+
+    @Override
+    public ListLinkHandlerFactory getChannelLHFactory() {
+        return new MediaCCCConferenceLinkHandlerFactory();
+    }
+
+    @Override
+    public ListLinkHandlerFactory getChannelTabLHFactory() {
+        return null;
+    }
+
+    @Override
+    public ListLinkHandlerFactory getPlaylistLHFactory() {
+        return null;
+    }
+
+    @Override
+    public SearchQueryHandlerFactory getSearchQHFactory() {
+        return new MediaCCCSearchQueryHandlerFactory();
+    }
+
+    @Override
+    public StreamExtractor getStreamExtractor(final LinkHandler linkHandler) {
+        if (MediaCCCParsingHelper.isLiveStreamId(linkHandler.getId())) {
+            return new MediaCCCLiveStreamExtractor(this, linkHandler);
+        }
+        return new MediaCCCStreamExtractor(this, linkHandler);
+    }
+
+    @Override
+    public ChannelExtractor getChannelExtractor(final ListLinkHandler linkHandler) {
+        return new MediaCCCConferenceExtractor(this, linkHandler);
+    }
+
+    @Override
+    public ChannelTabExtractor getChannelTabExtractor(final ListLinkHandler linkHandler)
+            throws ExtractionException {
+        return null;
+    }
+
+    @Override
+    public PlaylistExtractor getPlaylistExtractor(final ListLinkHandler linkHandler) {
+        return null;
+    }
+
+    @Override
+    public SuggestionExtractor getSuggestionExtractor() {
+        return null;
+    }
+
+    @Override
+    public KioskList getKioskList() throws ExtractionException {
+        final KioskList list = new KioskList(this);
+
+        // add kiosks here e.g.:
+        try {
+            list.addKioskEntry(
+                    (streamingService, url, kioskId) -> new MediaCCCConferenceKiosk(
+                            MediaCCCService.this,
+                            new MediaCCCConferencesListLinkHandlerFactory().fromUrl(url),
+                            kioskId
+                    ),
+                    new MediaCCCConferencesListLinkHandlerFactory(),
+                    "conferences"
+            );
+
+            list.addKioskEntry(
+                    (streamingService, url, kioskId) -> new MediaCCCRecentKiosk(
+                            MediaCCCService.this,
+                            new MediaCCCRecentListLinkHandlerFactory().fromUrl(url),
+                            kioskId
+                    ),
+                    new MediaCCCRecentListLinkHandlerFactory(),
+                    "recent"
+            );
+
+            list.addKioskEntry(
+                    (streamingService, url, kioskId) -> new MediaCCCLiveStreamKiosk(
+                            MediaCCCService.this,
+                            new MediaCCCLiveListLinkHandlerFactory().fromUrl(url),
+                            kioskId
+                    ),
+                    new MediaCCCLiveListLinkHandlerFactory(),
+                    "live"
+            );
+
+            list.setDefaultKiosk("recent");
+        } catch (final Exception e) {
+            throw new ExtractionException(e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public SubscriptionExtractor getSubscriptionExtractor() {
+        return null;
+    }
+
+    @Override
+    public ListLinkHandlerFactory getCommentsLHFactory() {
+        return null;
+    }
+
+    @Override
+    public CommentsExtractor getCommentsExtractor(final ListLinkHandler linkHandler) {
+        return null;
+    }
+
+    @Override
+    public String getBaseUrl() {
+        return "https://media.ccc.de";
+    }
+
+}

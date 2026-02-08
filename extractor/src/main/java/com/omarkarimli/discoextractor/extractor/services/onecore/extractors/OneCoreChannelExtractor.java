@@ -1,0 +1,610 @@
+package com.omarkarimli.discoextractor.extractor.services.onecore.extractors;
+
+import com.grack.nanojson.JsonArray;
+import com.grack.nanojson.JsonObject;
+import com.grack.nanojson.JsonWriter;
+import com.omarkarimli.discoextractor.extractor.Image;
+import com.omarkarimli.discoextractor.extractor.Page;
+import com.omarkarimli.discoextractor.extractor.ServiceList;
+import com.omarkarimli.discoextractor.extractor.StreamingService;
+import com.omarkarimli.discoextractor.extractor.channel.ChannelExtractor;
+import com.omarkarimli.discoextractor.extractor.downloader.Downloader;
+import com.omarkarimli.discoextractor.extractor.downloader.Response;
+import com.omarkarimli.discoextractor.extractor.exceptions.ContentNotSupportedException;
+import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
+import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ChannelTabs;
+import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
+import com.omarkarimli.discoextractor.extractor.localization.TimeAgoParser;
+import com.omarkarimli.discoextractor.extractor.search.filter.Filter;
+import com.omarkarimli.discoextractor.extractor.search.filter.FilterItem;
+import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreChannelHelper;
+import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper;
+import com.omarkarimli.discoextractor.extractor.services.onecore.linkHandler.OneCoreChannelLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.services.onecore.linkHandler.OneCoreChannelTabLinkHandlerFactory;
+import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItem;
+import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItemsCollector;
+import com.omarkarimli.discoextractor.extractor.utils.JsonUtils;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.ChannelResponseData;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.DISABLE_PRETTY_PRINT_PARAMETER;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.ONECOREI_V1_URL;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.addOneCoreHeaders;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.getChannelResponse;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.getTextFromObject;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.getValidJsonResponseBody;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.prepareDesktopJsonBuilder;
+import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.resolveChannelId;
+import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
+
+public class OneCoreChannelExtractor extends ChannelExtractor {
+    private JsonObject jsonResponse;
+    private JsonObject videoTab;
+    private List<ListLinkHandler> tabs;
+
+    /**
+     * Some channels have response redirects and the only way to reliably get the id is by saving it
+     * <p>
+     * "Movies & Shows":
+     * <pre>
+     * UCuJcl0Ju-gPDoksRjK1ya-w ┐
+     * UChBfWrfBXL9wS6tQtgjt_OQ ├ UClgRkhTL3_hImCAmdLfDE4g
+     * UCok7UTQQEP1Rsctxiv3gwSQ ┘
+     * </pre>
+     */
+
+    // Constants of objects used multiples from channel responses
+    private static final String IMAGE = "image";
+    private static final String CONTENTS = "contents";
+    private static final String CONTENT_PREVIEW_IMAGE_VIEW_MODEL = "contentPreviewImageViewModel";
+    private static final String PAGE_HEADER_VIEW_MODEL = "pageHeaderViewModel";
+    private static final String TAB_RENDERER = "tabRenderer";
+    private static final String CONTENT = "content";
+    private static final String METADATA = "metadata";
+    private static final String AVATAR = "avatar";
+    private static final String THUMBNAILS = "thumbnails";
+    private static final String SOURCES = "sources";
+    private static final String BANNER = "banner";
+
+    private String redirectedChannelId;
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private Optional<OneCoreChannelHelper.ChannelHeader> channelHeader;
+
+    private String channelId;
+
+    /**
+     * If a channel is age-restricted, its pages are only accessible to logged-in and
+     * age-verified users, we get an {@code channelAgeGateRenderer} in this case, containing only
+     * the following metadata: channel name and channel avatar.
+     *
+     * <p>
+     * This restriction doesn't seem to apply to all countries.
+     * </p>
+     */
+    @Nullable
+    private JsonObject channelAgeGateRenderer;
+
+    public OneCoreChannelExtractor(final StreamingService service,
+                                   final ListLinkHandler linkHandler) {
+        super(service, linkHandler);
+    }
+
+    @Override
+    public void onFetchPage(@Nonnull final Downloader downloader) throws IOException,
+            ExtractionException {
+        final String channelPath = super.getId();
+        final String id = resolveChannelId(channelPath);
+        final ChannelResponseData data = getChannelResponse(id, "EgZ2aWRlb3PyBgQKAjoA",
+                getExtractorLocalization(), getExtractorContentCountry());
+
+        redirectedChannelId = data.channelId;
+        jsonResponse = data.responseJson;
+        channelHeader = OneCoreChannelHelper.getChannelHeader(jsonResponse);
+        channelId = data.channelId;
+        channelAgeGateRenderer = OneCoreChannelHelper.getChannelAgeGateRenderer(jsonResponse);
+    }
+
+    @Nonnull
+    @Override
+    public String getUrl() throws ParsingException {
+        try {
+            return OneCoreChannelLinkHandlerFactory.getInstance().getUrl("channel/" + getId());
+        } catch (final ParsingException e) {
+            return super.getUrl();
+        }
+    }
+
+    @Nonnull
+    @Override
+    public String getId() throws ParsingException {
+        assertPageFetched();
+        return OneCoreChannelHelper.getChannelId(channelHeader, jsonResponse, channelId);
+    }
+
+    @Nonnull
+    @Override
+    public String getName() throws ParsingException {
+        assertPageFetched();
+        return OneCoreChannelHelper.getChannelName(
+                channelHeader, jsonResponse, channelAgeGateRenderer);
+    }
+
+    @Nonnull
+    @Override
+    public List<Image> getAvatars() throws ParsingException {
+        assertPageFetched();
+        if (channelAgeGateRenderer != null) {
+            return Optional.ofNullable(channelAgeGateRenderer.getObject(AVATAR)
+                            .getArray(THUMBNAILS))
+                    .map(OneCoreParsingHelper::getImagesFromThumbnailsArray)
+                    .orElseThrow(() -> new ParsingException("Could not get avatars"));
+        }
+
+        return channelHeader.map(header -> {
+                    switch (header.headerType) {
+                        case PAGE:
+                            final JsonObject imageObj = header.json.getObject(CONTENT)
+                                    .getObject(PAGE_HEADER_VIEW_MODEL)
+                                    .getObject(IMAGE);
+
+                            if (imageObj.has(CONTENT_PREVIEW_IMAGE_VIEW_MODEL)) {
+                                return imageObj.getObject(CONTENT_PREVIEW_IMAGE_VIEW_MODEL)
+                                        .getObject(IMAGE)
+                                        .getArray(SOURCES);
+                            }
+
+                            if (imageObj.has("decoratedAvatarViewModel")) {
+                                return imageObj.getObject("decoratedAvatarViewModel")
+                                        .getObject(AVATAR)
+                                        .getObject("avatarViewModel")
+                                        .getObject(IMAGE)
+                                        .getArray(SOURCES);
+                            }
+
+                            // Return an empty avatar array as a fallback
+                            return new JsonArray();
+                        case INTERACTIVE_TABBED:
+                            return header.json.getObject("boxArt")
+                                    .getArray(THUMBNAILS);
+
+                        case C4_TABBED:
+                        case CAROUSEL:
+                        default:
+                            return header.json.getObject(AVATAR)
+                                    .getArray(THUMBNAILS);
+                    }
+                })
+                .map(OneCoreParsingHelper::getImagesFromThumbnailsArray)
+                .orElseThrow(() -> new ParsingException("Could not get avatars"));
+    }
+
+    @Nonnull
+    @Override
+    public List<Image> getBanners() {
+        assertPageFetched();
+        if (channelAgeGateRenderer != null) {
+            return emptyList();
+        }
+
+        return channelHeader.map(header -> {
+                    if (header.headerType == OneCoreChannelHelper.ChannelHeader.HeaderType.PAGE) {
+                        final JsonObject pageHeaderViewModel = header.json.getObject(CONTENT)
+                                .getObject(PAGE_HEADER_VIEW_MODEL);
+
+                        if (pageHeaderViewModel.has(BANNER)) {
+                            return pageHeaderViewModel.getObject(BANNER)
+                                    .getObject("imageBannerViewModel")
+                                    .getObject(IMAGE)
+                                    .getArray(SOURCES);
+                        }
+
+                        // No banner is available (this should happen on pageHeaderRenderers of
+                        // system channels), use an empty JsonArray instead
+                        return new JsonArray();
+                    }
+
+                    return header.json
+                            .getObject(BANNER)
+                            .getArray(THUMBNAILS);
+                })
+                .map(OneCoreParsingHelper::getImagesFromThumbnailsArray)
+                .orElse(emptyList());
+    }
+
+    @Override
+    public String getAvatarUrl() throws ParsingException {
+        return null;
+    }
+
+
+    @Override
+    public String getFeedUrl() throws ParsingException {
+        try {
+            return OneCoreParsingHelper.getFeedUrlFrom(getId());
+        } catch (final Exception e) {
+            throw new ParsingException("Could not get feed url", e);
+        }
+    }
+
+    @Override
+    public long getSubscriberCount() throws ParsingException {
+        assertPageFetched();
+        if (channelAgeGateRenderer != null) {
+            return UNKNOWN_SUBSCRIBER_COUNT;
+        }
+
+        if (channelHeader.isPresent()) {
+            final OneCoreChannelHelper.ChannelHeader header = channelHeader.get();
+
+            if (header.headerType == OneCoreChannelHelper.ChannelHeader.HeaderType.INTERACTIVE_TABBED) {
+                // No subscriber count is available on interactiveTabbedHeaderRenderer header
+                return UNKNOWN_SUBSCRIBER_COUNT;
+            }
+
+            final JsonObject headerJson = header.json;
+            if (header.headerType == OneCoreChannelHelper.ChannelHeader.HeaderType.PAGE) {
+                return getSubscriberCountFromPageChannelHeader(headerJson);
+            }
+
+            JsonObject textObject = null;
+
+            if (headerJson.has("subscriberCountText")) {
+                textObject = headerJson.getObject("subscriberCountText");
+            } else if (headerJson.has("subtitle")) {
+                textObject = headerJson.getObject("subtitle");
+            }
+
+            if (textObject != null) {
+                try {
+                    return Utils.mixedNumberWordToLong(getTextFromObject(textObject));
+                } catch (final NumberFormatException e) {
+                    return UNKNOWN_SUBSCRIBER_COUNT;
+                }
+            }
+        }
+
+        return UNKNOWN_SUBSCRIBER_COUNT;
+    }
+
+    private long getSubscriberCountFromPageChannelHeader(@Nonnull final JsonObject headerJson)
+            throws ParsingException {
+        final JsonObject metadataObject = headerJson.getObject(CONTENT)
+                .getObject(PAGE_HEADER_VIEW_MODEL)
+                .getObject(METADATA);
+
+        if (!metadataObject.has("contentMetadataViewModel")) {
+            return UNKNOWN_SUBSCRIBER_COUNT;
+        }
+
+        return metadataObject.getObject("contentMetadataViewModel")
+                .getArray("metadataRows")
+                .stream()
+                .filter(JsonObject.class::isInstance)
+                .map(JsonObject.class::cast)
+                .flatMap(metadataRow -> metadataRow.getArray("metadataParts").stream())
+                .filter(JsonObject.class::isInstance)
+                .map(JsonObject.class::cast)
+                .filter(metadataPart -> metadataPart.has("text"))
+                .filter(metadataPart -> {
+                    JsonObject textObject = metadataPart.getObject("text");
+                    return textObject.has(CONTENT) &&
+                            textObject.getString(CONTENT).toLowerCase().contains("subscriber");
+                })
+                .findFirst()
+                .map(metadataPart -> {
+                    try {
+                        return Utils.mixedNumberWordToLong(metadataPart.getObject("text")
+                                .getString(CONTENT));
+                    } catch (NumberFormatException | ParsingException e) {
+                        return UNKNOWN_SUBSCRIBER_COUNT;
+                    }
+                })
+                .orElse(UNKNOWN_SUBSCRIBER_COUNT);
+    }
+
+
+    @Override
+    public String getDescription() throws ParsingException {
+        assertPageFetched();
+        if (channelAgeGateRenderer != null) {
+            return null;
+        }
+
+        try {
+            if (channelHeader.isPresent()) {
+                final OneCoreChannelHelper.ChannelHeader header = channelHeader.get();
+                if (header.headerType == OneCoreChannelHelper.ChannelHeader.HeaderType.INTERACTIVE_TABBED) {
+                    /*
+                    In an interactiveTabbedHeaderRenderer, the real description, is only available
+                    in its header
+                    The other one returned in non-About tabs accessible in the
+                    microformatDataRenderer object of the response may be completely different
+                    The description extracted is incomplete and the original one can be only
+                    accessed from the About tab
+                     */
+                    return getTextFromObject(header.json.getObject("description"));
+                }
+            }
+
+            return jsonResponse.getObject(METADATA)
+                    .getObject("channelMetadataRenderer")
+                    .getString("description");
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+
+    @Override
+    public String getParentChannelName() {
+        return "";
+    }
+
+    @Override
+    public String getParentChannelUrl() {
+        return "";
+    }
+
+    @Override
+    public String getParentChannelAvatarUrl() {
+        return "";
+    }
+
+    @Override
+    public boolean isVerified() throws ParsingException {
+        assertPageFetched();
+        if (channelAgeGateRenderer != null) {
+            // Verified status is unknown with channelAgeGateRenderers, return false in this case
+            return false;
+        }
+
+        return OneCoreChannelHelper.isChannelVerified(channelHeader.orElseThrow(() ->
+                new ParsingException("Could not get verified status")));
+    }
+
+    @Nonnull
+    @Override
+    public List<ListLinkHandler> getTabs() throws ParsingException {
+        getVideoTab();
+        return tabs;
+    }
+
+    @Nonnull
+    @Override
+    public List<String> getTags() throws ParsingException {
+        final JsonArray tags = jsonResponse.getObject("microformat")
+                .getObject("microformatDataRenderer").getArray("tags");
+
+        return tags.stream().map(Object::toString).collect(Collectors.toList());
+    }
+
+    @Nonnull
+    @Override
+    public InfoItemsPage<StreamInfoItem> getInitialPage() throws IOException, ExtractionException {
+        final StreamInfoItemsCollector collector = new StreamInfoItemsCollector(getServiceId());
+
+        Page nextPage = null;
+
+        if (getVideoTab() != null) {
+            final JsonObject tabContent = getVideoTab().getObject("content");
+            JsonArray items = tabContent
+                    .getObject("sectionListRenderer")
+                    .getArray("contents").getObject(0).getObject("itemSectionRenderer")
+                    .getArray("contents").getObject(0).getObject("gridRenderer").getArray("items");
+
+            if (items.isEmpty()) {
+                items = tabContent.getObject("richGridRenderer").getArray("contents");
+            }
+
+            final List<String> channelIds = new ArrayList<>();
+            channelIds.add(getName());
+            channelIds.add(getUrl());
+            final JsonObject continuation = collectStreamsFrom(collector, items, channelIds);
+
+            nextPage = getNextPageFrom(continuation, channelIds);
+        }
+        if (ServiceList.OneCore.getFilterTypes().contains("channels")) {
+            collector.applyBlocking(ServiceList.OneCore.getFilterConfig());
+        }
+        return new InfoItemsPage<>(collector, nextPage);
+    }
+
+    @Override
+    public InfoItemsPage<StreamInfoItem> getPage(final Page page) throws IOException,
+            ExtractionException {
+        if (page == null || isNullOrEmpty(page.getUrl())) {
+            throw new IllegalArgumentException("Page doesn't contain an URL");
+        }
+
+        final List<String> channelIds = page.getIds();
+
+        final StreamInfoItemsCollector collector = new StreamInfoItemsCollector(getServiceId());
+        final Map<String, List<String>> headers = new HashMap<>();
+        addOneCoreHeaders(headers);
+
+        final Response response = getDownloader().post(page.getUrl(), headers, page.getBody(),
+                getExtractorLocalization());
+
+        final JsonObject ajaxJson = JsonUtils.toJsonObject(getValidJsonResponseBody(response));
+
+        final JsonObject sectionListContinuation = ajaxJson.getArray("onResponseReceivedActions")
+                .getObject(0)
+                .getObject("appendContinuationItemsAction");
+
+        final JsonObject continuation = collectStreamsFrom(collector, sectionListContinuation
+                .getArray("continuationItems"), channelIds);
+
+        if (ServiceList.OneCore.getFilterTypes().contains("channels")) {
+            collector.applyBlocking(ServiceList.OneCore.getFilterConfig());
+        }
+        return new InfoItemsPage<>(collector, getNextPageFrom(continuation, channelIds));
+    }
+
+    @Nullable
+    private Page getNextPageFrom(final JsonObject continuations,
+                                 final List<String> channelIds) throws IOException,
+            ExtractionException {
+        if (isNullOrEmpty(continuations)) {
+            return null;
+        }
+
+        final JsonObject continuationEndpoint = continuations.getObject("continuationEndpoint");
+        final String continuation = continuationEndpoint.getObject("continuationCommand")
+                .getString("token");
+
+        final byte[] body = JsonWriter.string(prepareDesktopJsonBuilder(getExtractorLocalization(),
+                        getExtractorContentCountry())
+                        .value("continuation", continuation)
+                        .done())
+                .getBytes(StandardCharsets.UTF_8);
+
+        return new Page(ONECOREI_V1_URL + "browse?"
+                + DISABLE_PRETTY_PRINT_PARAMETER, null, channelIds, null, body);
+    }
+
+    /**
+     * Collect streams from an array of items
+     *
+     * @param collector  the collector where videos will be committed
+     * @param videos     the array to get videos from
+     * @param channelIds the ids of the channel, which are its name and its URL
+     * @return the continuation object
+     */
+    private JsonObject collectStreamsFrom(@Nonnull final StreamInfoItemsCollector collector,
+                                          @Nonnull final JsonArray videos,
+                                          @Nonnull final List<String> channelIds) {
+        collector.reset();
+
+        final String uploaderName = channelIds.get(0);
+        final String uploaderUrl = channelIds.get(1);
+        final TimeAgoParser timeAgoParser = getTimeAgoParser();
+
+        JsonObject continuation = null;
+
+        for (final Object object : videos) {
+            final JsonObject video = (JsonObject) object;
+            if (video.has("gridVideoRenderer")) {
+                collector.commit(new OneCoreStreamInfoItemExtractor(
+                        video.getObject("gridVideoRenderer"), timeAgoParser) {
+                    @Override
+                    public String getUploaderName() {
+                        return uploaderName;
+                    }
+
+                    @Override
+                    public String getUploaderUrl() {
+                        return uploaderUrl;
+                    }
+                });
+            } else if (video.has("richItemRenderer")) {
+                collector.commit(new OneCoreStreamInfoItemExtractor(
+                        video.getObject("richItemRenderer")
+                                .getObject("content").getObject("videoRenderer"), timeAgoParser) {
+                    @Override
+                    public String getUploaderName() {
+                        return uploaderName;
+                    }
+
+                    @Override
+                    public String getUploaderUrl() {
+                        return uploaderUrl;
+                    }
+                });
+
+            } else if (video.has("continuationItemRenderer")) {
+                continuation = video.getObject("continuationItemRenderer");
+            }
+        }
+
+        return continuation;
+    }
+
+    @Nullable
+    private JsonObject getVideoTab() throws ParsingException {
+        if (this.videoTab != null) {
+            return this.videoTab;
+        }
+
+        final JsonArray responseTabs = jsonResponse.getObject("contents")
+                .getObject("twoColumnBrowseResultsRenderer")
+                .getArray("tabs");
+
+        JsonObject foundVideoTab = null;
+        tabs = new ArrayList<>();
+
+        final Consumer<String> addTab = tab -> {
+            try {
+                tabs.add(OneCoreChannelTabLinkHandlerFactory.getInstance().fromQuery(
+                        redirectedChannelId, Collections.singletonList(new FilterItem(Filter.ITEM_IDENTIFIER_UNKNOWN, tab)), null));
+            } catch (final ParsingException e) {
+                e.printStackTrace();
+            }
+        };
+
+        for (final Object tab : responseTabs) {
+            if (((JsonObject) tab).has("tabRenderer")) {
+                final JsonObject tabRenderer = ((JsonObject) tab).getObject("tabRenderer");
+                final String tabUrl = tabRenderer.getObject("endpoint")
+                        .getObject("commandMetadata").getObject("webCommandMetadata")
+                        .getString("url");
+                if (tabUrl != null) {
+                    final String[] urlParts = tabUrl.split("/");
+                    final String urlSuffix = urlParts[urlParts.length - 1];
+
+                    switch (urlSuffix) {
+                        case "videos":
+                            addTab.accept(ChannelTabs.VIDEOS);
+                            foundVideoTab = tabRenderer;
+                            break;
+                        case "playlists":
+                            addTab.accept(ChannelTabs.PLAYLISTS);
+                            break;
+                        case "streams":
+                            addTab.accept(ChannelTabs.LIVESTREAMS);
+                            break;
+                        case "shorts":
+                            addTab.accept(ChannelTabs.SHORTS);
+                            break;
+                        case "channels":
+                            addTab.accept(ChannelTabs.CHANNELS);
+                            break;
+                    }
+                }
+            }
+        }
+
+        if (foundVideoTab == null) {
+            if (tabs.isEmpty()) {
+                throw new ContentNotSupportedException("This channel has no supported tabs");
+            }
+
+            return null;
+        }
+
+        try {
+            final String messageRendererText = getTextFromObject(foundVideoTab.getObject("content")
+                    .getObject("sectionListRenderer").getArray("contents").getObject(0)
+                    .getObject("itemSectionRenderer").getArray("contents").getObject(0)
+                    .getObject("messageRenderer").getObject("text"));
+            if (messageRendererText != null
+                    && messageRendererText.equals("This channel has no videos.")) {
+                return null;
+            }
+        } catch (final ParsingException ignored) {
+        }
+
+        this.videoTab = foundVideoTab;
+        return foundVideoTab;
+    }
+}

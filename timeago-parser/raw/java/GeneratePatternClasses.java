@@ -42,13 +42,13 @@ public class GeneratePatternClasses {
             System.out.println("Generating \"" + languageCode + "\" pattern class...");
 
             try (final FileWriter fileOut = new FileWriter(
-                    "timeago-parser/src/main/java/org/schabi/newpipe/extractor/timeago/patterns/" +
+                    "timeago-parser/src/main/java/org/omarkarimli/discoextractor/extractor/timeago/patterns/" +
                             languageCode + ".java")) {
                 final String test = INFO_CLASS_GENERATED + "\n" +
                         "\n" +
-                        "package org.schabi.newpipe.extractor.timeago.patterns;\n\n" +
-                        "import org.schabi.newpipe.extractor.timeago.PatternsHolder;\n" +
-                        (specialCasesString.length() > 0 ? "import org.schabi.newpipe.extractor.timeago.TimeAgoUnit;\n" : "") +
+                        "package org.omarkarimli.discoextractor.extractor.timeago.patterns;\n\n" +
+                        "import org.omarkarimli.discoextractor.extractor.timeago.PatternsHolder;\n" +
+                        (specialCasesString.length() > 0 ? "import org.omarkarimli.discoextractor.extractor.timeago.TimeAgoUnit;\n" : "") +
                         "\n" +
                         "public class " + languageCode + " extends PatternsHolder {\n" +
                         "    private static final String WORD_SEPARATOR = \"" + wordSeparator + "\";\n" +
