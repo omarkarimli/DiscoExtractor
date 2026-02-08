@@ -2,7 +2,9 @@ package com.omarkarimli.discoextractor.extractor.services.niconico.extractors;
 
 import com.omarkarimli.discoextractor.extractor.bulletComments.BulletCommentsInfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
-import com.omarkarimli.discoextractor.extractor.services.niconico.protobuf.BulletComment;
+
+import org.omarkarimli.discoextractor.extractor.services.niconico.protobuf.BulletComment;
+
 import java.time.Duration;
 
 public class NiconicoBulletCommentsProtoInfoItemExtractor implements BulletCommentsInfoItemExtractor {

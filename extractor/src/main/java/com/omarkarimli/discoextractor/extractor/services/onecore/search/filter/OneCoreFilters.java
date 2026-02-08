@@ -4,11 +4,12 @@ import com.omarkarimli.discoextractor.extractor.search.filter.Filter;
 import com.omarkarimli.discoextractor.extractor.search.filter.FilterGroup;
 import com.omarkarimli.discoextractor.extractor.search.filter.FilterItem;
 import com.omarkarimli.discoextractor.extractor.search.filter.SearchFiltersBase;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.DateFilter;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Features;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.LenFilter;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SortOrder;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.TypeFilter;
+
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.DateFilter;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Features;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.LenFilter;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SortOrder;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.TypeFilter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

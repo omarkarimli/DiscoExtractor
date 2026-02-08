@@ -1,14 +1,14 @@
 package com.omarkarimli.discoextractor.extractor.services.onecore.search.filter;
 
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.DateFilter;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.ExtraFeatures;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Extras;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Features;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Filters;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.LenFilter;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SearchRequest;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SortOrder;
-import com.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.TypeFilter;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.DateFilter;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.ExtraFeatures;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Extras;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Features;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.Filters;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.LenFilter;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SearchRequest;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.SortOrder;
+import org.omarkarimli.discoextractor.extractor.services.onecore.search.filter.protobuf.TypeFilter;
 
 import java.io.IOException;
 import java.net.URLDecoder;
