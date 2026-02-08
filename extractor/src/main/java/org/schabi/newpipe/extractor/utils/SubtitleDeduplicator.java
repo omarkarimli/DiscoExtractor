@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import static java.util.Collections.singletonList;
 import static org.schabi.newpipe.extractor.NewPipe.getDownloader;
-import static org.schabi.newpipe.extractor.services.youtube.YoutubeParsingHelper.*;
+import static org.schabi.newpipe.extractor.services.onecore.OneCoreParsingHelper.*;
 
 public class SubtitleDeduplicator {
 

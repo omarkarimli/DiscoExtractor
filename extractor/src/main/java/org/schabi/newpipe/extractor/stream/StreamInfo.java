@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import javax.annotation.Nonnull;
 
@@ -152,7 +151,7 @@ public class StreamInfo extends Info {
 
         // Suppress always-non-null warning as here we double-check it really is not null
         //noinspection ConstantConditions
-        if (extractor.getService() != ServiceList.YouTube && (streamType == StreamType.NONE
+        if (extractor.getService() != ServiceList.OneCore && (streamType == StreamType.NONE
                 || isNullOrEmpty(url)
                 || isNullOrEmpty(id)
                 || name == null /* but it can be empty of course */

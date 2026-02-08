@@ -1,6 +1,6 @@
 package org.schabi.newpipe.extractor.search.filter;
 
-import org.schabi.newpipe.extractor.services.youtube.search.filter.YoutubeFilters;
+import org.schabi.newpipe.extractor.services.onecore.search.filter.OneCoreFilters;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -74,7 +74,7 @@ public abstract class SearchFiltersBase {
 
     /**
      * create all 'sort' and 'content filter' items and all 'sort filter variants' in this method.
-     * See eg. {@link YoutubeFilters#init()}
+     * See eg. {@link OneCoreFilters#init()}
      */
     protected abstract void init();
 

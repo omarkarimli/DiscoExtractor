@@ -5,7 +5,7 @@ import org.schabi.newpipe.extractor.ListExtractor.InfoItemsPage;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.linkhandler.ListLinkHandler;
-import org.schabi.newpipe.extractor.services.youtube.YoutubeParsingHelper;
+import org.schabi.newpipe.extractor.services.onecore.OneCoreParsingHelper;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.utils.ExtractorHelper;
 
@@ -175,9 +175,9 @@ public final class PlaylistInfo extends ListInfo<StreamInfoItem> {
         extractor.fetchPage();
         final PlaylistInfo info = getInfo(extractor);
         if (!service.isFetchFullPlaylist() ||
-                (info.getServiceId() == ServiceList.YouTube.getServiceId()
-                && (YoutubeParsingHelper.isYoutubeMixId(info.getId())
-                || YoutubeParsingHelper.isYoutubeMusicMixId(info.getId())))){
+                (info.getServiceId() == ServiceList.OneCore.getServiceId()
+                && (OneCoreParsingHelper.isOneCoreMixId(info.getId())
+                || OneCoreParsingHelper.isOneCoreMusicMixId(info.getId())))){
             // YouTube mixes are infinite playlists, so we just fetch the first page
             final InfoItemsPage<StreamInfoItem> itemsPage
                     = ExtractorHelper.getItemsPageOrLogError(info, extractor);

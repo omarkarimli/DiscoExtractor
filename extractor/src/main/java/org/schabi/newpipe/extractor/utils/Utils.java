@@ -257,7 +257,7 @@ public final class Utils {
         } catch (final MalformedURLException e) {
             final String message = e.getMessage();
             if (message.startsWith("unknown protocol: ")) {
-                // Return just the protocol (e.g. vnd.youtube)
+                // Return just the protocol (e.g. vnd.onecore)
                 return message.substring("unknown protocol: ".length());
             }
 

@@ -471,7 +471,7 @@ public abstract class StreamExtractor extends Extractor {
 
     /**
      * Override this function if the format of timestamp in the url is not the same format as that
-     * from youtube.
+     * from onecore.
      *
      * @return the time stamp/seek for the video in seconds
      */

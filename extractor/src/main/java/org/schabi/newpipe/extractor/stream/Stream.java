@@ -1,7 +1,7 @@
 package org.schabi.newpipe.extractor.stream;
 
 import org.schabi.newpipe.extractor.MediaFormat;
-import org.schabi.newpipe.extractor.services.youtube.ItagItem;
+import org.schabi.newpipe.extractor.services.onecore.ItagItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

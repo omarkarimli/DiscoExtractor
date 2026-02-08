@@ -5,7 +5,7 @@ import org.schabi.newpipe.extractor.InfoItemExtractor;
 import org.schabi.newpipe.extractor.Page;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.localization.DateWrapper;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeCommentsInfoItemExtractor;
+import org.schabi.newpipe.extractor.services.onecore.extractors.OneCoreCommentsInfoItemExtractor;
 import org.schabi.newpipe.extractor.stream.StreamExtractor;
 import org.schabi.newpipe.extractor.utils.Utils;
 
@@ -24,7 +24,7 @@ public interface CommentsInfoItemExtractor extends InfoItemExtractor {
      * <br>
      * <p>
      * NOTE: Currently only implemented for YT {@link
-     * YoutubeCommentsInfoItemExtractor#getLikeCount()}
+     * OneCoreCommentsInfoItemExtractor#getLikeCount()}
      * with limitations (only approximate like count is returned)
      *
      * @return the comment's like count

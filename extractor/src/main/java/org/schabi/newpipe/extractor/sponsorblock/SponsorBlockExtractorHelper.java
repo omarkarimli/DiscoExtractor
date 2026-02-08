@@ -208,7 +208,7 @@ public final class SponsorBlockExtractorHelper {
 
     public static String getApiUrl(int serviceId) {
         String apiUrl = "https://sponsor.ajay.app/api/";
-        if (serviceId == ServiceList.YouTube.getServiceId()) {
+        if (serviceId == ServiceList.OneCore.getServiceId()) {
             apiUrl = "https://sponsor.ajay.app/api/";
         } else if (serviceId == ServiceList.BiliBili.getServiceId()) {
             apiUrl = "https://bsbsb.top/api/";
