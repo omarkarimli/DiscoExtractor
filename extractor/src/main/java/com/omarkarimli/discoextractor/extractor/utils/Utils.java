@@ -529,11 +529,46 @@ public final class Utils {
     public static String replaceMany(String text) {
         if (text == null) return null;
 
-        // Arrays.asList is the Java 8 equivalent to List.of
-        List<String> oldValues = Arrays.asList("word1", "word2", "word3");
-        String newValue = "Some";
+        List<String> oldValues = Arrays.asList(
+                "YouTube",
+                "YouTube Music",
+                "YouTube TV",
+                "YouTube Studio",
+                "YouTube Premium",
+                "YouTube Kids",
+                "YouTube Shorts",
+                "YouTube Live",
+                "YouTube Gaming",
+                "YouTube Creator Studio",
+                "YouTube Analytics",
+                "YouTube Partner Program",
+                "YT",
+                "YT Music",
+                "YTM",
+                "YT TV",
+                "YT Studio",
+                "YT Premium",
+                "YT Kids",
+                "YT Shorts",
+                "YT Live",
+                "YT Gaming",
+                "YPP",
+                "yt",
+                "yt music",
+                "ytm",
+                "yt tv",
+                "yt studio",
+                "yt premium",
+                "yt kids",
+                "yt shorts",
+                "yt live",
+                "yt gaming",
+                "yt creator studio",
+                "yt analytics",
+                "yt partner program"
+        );
+        String newValue = "Disco";
 
-        // This stream logic works perfectly in Java 8+
         return oldValues.stream().reduce(
                 text,
                 (accumulator, oldValue) -> accumulator.replace(oldValue, newValue)
