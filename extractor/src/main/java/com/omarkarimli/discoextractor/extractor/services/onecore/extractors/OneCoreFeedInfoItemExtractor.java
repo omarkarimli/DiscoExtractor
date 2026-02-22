@@ -5,6 +5,7 @@ import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
 import com.omarkarimli.discoextractor.extractor.localization.DateWrapper;
 import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.stream.StreamType;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
@@ -43,7 +44,7 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
 
     @Override
     public String getUploaderName() {
-        return entryElement.select("author > name").first().text();
+        return Utils.replaceMany(entryElement.select("author > name").first().text());
     }
 
     @Override
@@ -65,14 +66,14 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
     @Nullable
     @Override
     public String getTextualUploadDate() {
-        return entryElement.getElementsByTag("published").first().text();
+        return Utils.replaceMany(entryElement.getElementsByTag("published").first().text());
     }
 
     @Nullable
     @Override
     public DateWrapper getUploadDate() throws ParsingException {
         try {
-            return new DateWrapper(OffsetDateTime.parse(getTextualUploadDate()));
+            return new DateWrapper(OffsetDateTime.parse(entryElement.getElementsByTag("published").first().text()));
         } catch (final DateTimeParseException e) {
             throw new ParsingException("Could not parse date (\"" + getTextualUploadDate() + "\")",
                     e);
@@ -81,7 +82,7 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
 
     @Override
     public String getName() {
-        return entryElement.getElementsByTag("title").first().text();
+        return Utils.replaceMany(entryElement.getElementsByTag("title").first().text());
     }
 
     @Override

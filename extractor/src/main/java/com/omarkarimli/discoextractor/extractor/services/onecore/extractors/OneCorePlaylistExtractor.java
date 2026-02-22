@@ -116,12 +116,12 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
     public String getName() throws ParsingException {
         final String name = getTextFromObject(playlistInfo.getObject("title"));
         if (!isNullOrEmpty(name)) {
-            return name;
+            return Utils.replaceMany(name);
         }
 
-        return browseResponse.getObject("microformat")
+        return Utils.replaceMany(browseResponse.getObject("microformat")
                 .getObject("microformatDataRenderer")
-                .getString("title");
+                .getString("title"));
     }
 
     @Nonnull
@@ -167,7 +167,7 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
     @Override
     public String getUploaderName() throws ParsingException {
         try {
-            return getTextFromObject(getUploaderInfo().getObject("title"));
+            return Utils.replaceMany(getTextFromObject(getUploaderInfo().getObject("title")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get playlist uploader name", e);
         }

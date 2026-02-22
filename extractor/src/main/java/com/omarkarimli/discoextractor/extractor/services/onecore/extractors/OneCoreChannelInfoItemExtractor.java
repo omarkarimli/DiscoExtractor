@@ -73,7 +73,7 @@ public class OneCoreChannelInfoItemExtractor implements ChannelInfoItemExtractor
     @Override
     public String getName() throws ParsingException {
         try {
-            return getTextFromObject(channelInfoItem.getObject("title"));
+            return Utils.replaceMany(getTextFromObject(channelInfoItem.getObject("title")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get name", e);
         }
@@ -142,7 +142,7 @@ public class OneCoreChannelInfoItemExtractor implements ChannelInfoItemExtractor
                 return null;
             }
 
-            return getTextFromObject(channelInfoItem.getObject("descriptionSnippet"));
+            return Utils.replaceMany(getTextFromObject(channelInfoItem.getObject("descriptionSnippet")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get description", e);
         }

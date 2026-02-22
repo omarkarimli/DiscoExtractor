@@ -81,22 +81,22 @@ class OneCoreCommentsEUVMInfoItemExtractor implements CommentsInfoItemExtractor 
 
     @Override
     public String getTextualLikeCount() {
-        return commentEntityPayload.getObject("toolbar")
-                .getString("likeCountNotliked");
+        return Utils.replaceMany(commentEntityPayload.getObject("toolbar")
+                .getString("likeCountNotliked"));
     }
 
     @Override
     public String getCommentText() throws ParsingException {
         // Comments' text work in the same way as an attributed video description
-        return HtmlParser.htmlToString(new Description(
+        return Utils.replaceMany(HtmlParser.htmlToString(new Description(
                 attributedDescriptionToHtml(commentEntityPayload.getObject(PROPERTIES)
-                        .getObject("content")), Description.HTML).getContent());
+                        .getObject("content")), Description.HTML).getContent()));
     }
 
     @Override
     public String getTextualUploadDate() throws ParsingException {
-        return commentEntityPayload.getObject(PROPERTIES)
-                .getString("publishedTime");
+        return Utils.replaceMany(commentEntityPayload.getObject(PROPERTIES)
+                .getString("publishedTime"));
     }
 
     @Nullable
@@ -148,8 +148,8 @@ class OneCoreCommentsEUVMInfoItemExtractor implements CommentsInfoItemExtractor 
 
     @Override
     public String getUploaderName() throws ParsingException {
-        return commentEntityPayload.getObject(AUTHOR)
-                .getString("displayName");
+        return Utils.replaceMany(commentEntityPayload.getObject(AUTHOR)
+                .getString("displayName"));
     }
 
     @Nonnull

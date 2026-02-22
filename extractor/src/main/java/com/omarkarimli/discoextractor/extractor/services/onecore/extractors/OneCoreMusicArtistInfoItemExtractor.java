@@ -43,7 +43,7 @@ public class OneCoreMusicArtistInfoItemExtractor implements ChannelInfoItemExtra
                 .getObject("musicResponsiveListItemFlexColumnRenderer")
                 .getObject("text"));
         if (!isNullOrEmpty(name)) {
-            return name;
+            return Utils.replaceMany(name);
         }
         throw new ParsingException("Could not get name");
     }

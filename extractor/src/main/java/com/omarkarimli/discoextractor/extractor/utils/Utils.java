@@ -508,7 +508,6 @@ public final class Utils {
         return null;
     }
 
-
     public static String toSha256(final String videoId) throws NoSuchAlgorithmException {
         final MessageDigest digest = MessageDigest.getInstance("SHA-256");
         final byte[] bytes = digest.digest(videoId.getBytes(StandardCharsets.UTF_8));
@@ -525,5 +524,19 @@ public final class Utils {
         }
 
         return sb.toString();
+    }
+
+    public static String replaceMany(String text) {
+        if (text == null) return null;
+
+        // Arrays.asList is the Java 8 equivalent to List.of
+        List<String> oldValues = Arrays.asList("word1", "word2", "word3");
+        String newValue = "Some";
+
+        // This stream logic works perfectly in Java 8+
+        return oldValues.stream().reduce(
+                text,
+                (accumulator, oldValue) -> accumulator.replace(oldValue, newValue)
+        );
     }
 }

@@ -36,7 +36,7 @@ public class OneCorePlaylistInfoItemExtractor implements PlaylistInfoItemExtract
     @Override
     public String getName() throws ParsingException {
         try {
-            return getTextFromObject(playlistInfoItem.getObject("title"));
+            return Utils.replaceMany(getTextFromObject(playlistInfoItem.getObject("title")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get name", e);
         }
@@ -55,7 +55,7 @@ public class OneCorePlaylistInfoItemExtractor implements PlaylistInfoItemExtract
     @Override
     public String getUploaderName() throws ParsingException {
         try {
-            return getTextFromObject(playlistInfoItem.getObject("longBylineText"));
+            return Utils.replaceMany(getTextFromObject(playlistInfoItem.getObject("longBylineText")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get uploader name", e);
         }

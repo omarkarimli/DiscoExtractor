@@ -62,7 +62,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getName() throws ParsingException {
         try {
-            return getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText"));
+            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
         } catch (final Exception e) {
             return "";
         }
@@ -71,8 +71,8 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getTextualUploadDate() throws ParsingException {
         try {
-            return getTextFromObject(JsonUtils.getObject(commentRenderer,
-                    "publishedTimeText"));
+            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer,
+                    "publishedTimeText")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get publishedTimeText", e);
         }
@@ -169,7 +169,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
             if (voteCountObj.isEmpty()) {
                 return "";
             }
-            return getTextFromObject(voteCountObj);
+            return Utils.replaceMany(getTextFromObject(voteCountObj));
         } catch (final Exception e) {
             throw new ParsingException("Could not get the vote count", e);
         }
@@ -189,7 +189,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
             // eg. https://www.youtube.com/watch?v=Nj4F63E59io<feff>
             final String commentTextBomRemoved = Utils.removeUTF8BOM(commentText);
 
-            return HtmlParser.htmlToString(commentTextBomRemoved);
+            return Utils.replaceMany(HtmlParser.htmlToString(commentTextBomRemoved));
         } catch (final Exception e) {
             throw new ParsingException("Could not get comment text", e);
         }
@@ -230,7 +230,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getUploaderName() throws ParsingException {
         try {
-            return getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText"));
+            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
         } catch (final Exception e) {
             return "";
         }

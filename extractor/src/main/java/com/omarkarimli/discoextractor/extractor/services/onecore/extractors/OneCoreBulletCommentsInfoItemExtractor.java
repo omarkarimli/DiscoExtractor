@@ -6,6 +6,7 @@ import com.grack.nanojson.JsonObject;
 import com.omarkarimli.discoextractor.extractor.bulletComments.BulletCommentsInfoItem;
 import com.omarkarimli.discoextractor.extractor.bulletComments.BulletCommentsInfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import java.time.Duration;
 
@@ -28,7 +29,7 @@ public class OneCoreBulletCommentsInfoItemExtractor implements BulletCommentsInf
                 result.append(array.getObject(i).getString("text"));
             }
         }
-        return result.toString().replaceAll("□", "");
+        return Utils.replaceMany(result.toString().replaceAll("□", ""));
     }
 
     @Override

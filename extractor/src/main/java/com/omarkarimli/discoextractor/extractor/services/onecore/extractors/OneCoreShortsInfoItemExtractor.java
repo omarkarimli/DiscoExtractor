@@ -16,7 +16,7 @@ public class OneCoreShortsInfoItemExtractor implements StreamInfoItemExtractor {
     }
     @Override
     public String getName() throws ParsingException {
-        return item.getObject("overlayMetadata").getObject("primaryText").getString("content");
+        return Utils.replaceMany(item.getObject("overlayMetadata").getObject("primaryText").getString("content"));
     }
 
     @Override
