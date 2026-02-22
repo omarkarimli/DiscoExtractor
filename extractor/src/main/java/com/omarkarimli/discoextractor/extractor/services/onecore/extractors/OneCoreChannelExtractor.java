@@ -136,8 +136,8 @@ public class OneCoreChannelExtractor extends ChannelExtractor {
     @Override
     public String getName() throws ParsingException {
         assertPageFetched();
-        return OneCoreChannelHelper.getChannelName(
-                channelHeader, jsonResponse, channelAgeGateRenderer);
+        return Utils.replaceMany(OneCoreChannelHelper.getChannelName(
+                channelHeader, jsonResponse, channelAgeGateRenderer));
     }
 
     @Nonnull
@@ -333,13 +333,13 @@ public class OneCoreChannelExtractor extends ChannelExtractor {
                     The description extracted is incomplete and the original one can be only
                     accessed from the About tab
                      */
-                    return getTextFromObject(header.json.getObject("description"));
+                    return Utils.replaceMany(getTextFromObject(header.json.getObject("description")));
                 }
             }
 
-            return jsonResponse.getObject(METADATA)
+            return Utils.replaceMany(jsonResponse.getObject(METADATA)
                     .getObject("channelMetadataRenderer")
-                    .getString("description");
+                    .getString("description"));
         } catch (final Exception e) {
             return null;
         }

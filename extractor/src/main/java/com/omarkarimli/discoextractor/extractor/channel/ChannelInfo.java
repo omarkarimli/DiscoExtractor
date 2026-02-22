@@ -10,31 +10,12 @@ import com.omarkarimli.discoextractor.extractor.exceptions.ExtractionException;
 import com.omarkarimli.discoextractor.extractor.linkhandler.ListLinkHandler;
 import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItem;
 import com.omarkarimli.discoextractor.extractor.utils.ExtractorHelper;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-/*
- * Created by Christian Schabesberger on 31.07.16.
- *
- * Copyright (C) Christian Schabesberger 2016 <chris.schabesberger@mailbox.org>
- * ChannelInfo.java is part of NewPipe.
- *
- * NewPipe is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * NewPipe is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with NewPipe.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 public class ChannelInfo extends ListInfo<StreamInfoItem> {
 
@@ -124,7 +105,7 @@ public class ChannelInfo extends ListInfo<StreamInfoItem> {
             info.addError(e);
         }
         try {
-            info.setDescription(extractor.getDescription());
+            info.setDescription(Utils.replaceMany(extractor.getDescription()));
         } catch (final Exception e) {
             info.addError(e);
         }

@@ -9,6 +9,7 @@ import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingH
 import com.omarkarimli.discoextractor.extractor.services.onecore.linkHandler.OneCoreStreamLinkHandlerFactory;
 import com.omarkarimli.discoextractor.extractor.stream.StreamInfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.stream.StreamType;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +42,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
         if (isNullOrEmpty(name)) {
             throw new ParsingException("Could not get name");
         }
-        return name;
+        return Utils.replaceMany(name);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
                         .getObject("text")
                         .getString("content");
                 if (!isNullOrEmpty(uploaderName)) {
-                    return uploaderName;
+                    return Utils.replaceMany(uploaderName);
                 }
             }
         }
@@ -202,7 +203,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
                         .getString("content");
 
                 if (!isNullOrEmpty(uploadText)) {
-                    return uploadText;
+                    return Utils.replaceMany(uploadText);
                 }
             }
         }

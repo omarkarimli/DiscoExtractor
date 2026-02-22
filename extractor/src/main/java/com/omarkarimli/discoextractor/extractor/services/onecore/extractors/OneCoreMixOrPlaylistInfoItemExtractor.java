@@ -12,6 +12,7 @@ import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
 import com.omarkarimli.discoextractor.extractor.playlist.PlaylistInfo;
 import com.omarkarimli.discoextractor.extractor.playlist.PlaylistInfoItemExtractor;
 import com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +29,7 @@ public class OneCoreMixOrPlaylistInfoItemExtractor implements PlaylistInfoItemEx
         if (isNullOrEmpty(name)) {
             throw new ParsingException("Could not get name");
         }
-        return name;
+        return Utils.replaceMany(name);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class OneCoreMixOrPlaylistInfoItemExtractor implements PlaylistInfoItemEx
     @Override
     public String getUploaderName() throws ParsingException {
         // this will be "YouTube" for mixes
-        return OneCoreParsingHelper.getTextFromObject(mixInfoItem.getObject("longBylineText"));
+        return Utils.replaceMany(OneCoreParsingHelper.getTextFromObject(mixInfoItem.getObject("longBylineText")));
     }
 
     @Override

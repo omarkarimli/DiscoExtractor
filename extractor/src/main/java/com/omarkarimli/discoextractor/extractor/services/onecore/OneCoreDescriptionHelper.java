@@ -7,6 +7,7 @@ import com.grack.nanojson.JsonObject;
 
 import org.jsoup.nodes.Entities;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
+import com.omarkarimli.discoextractor.extractor.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,14 +71,12 @@ public final class OneCoreDescriptionHelper {
     public static String attributedDescriptionToHtml(
             @Nullable final JsonObject attributedDescription
     ) {
-        if (isNullOrEmpty(attributedDescription)) {
-            return null;
-        }
+        if (isNullOrEmpty(attributedDescription)) return null;
 
-        final String content = attributedDescription.getString("content");
-        if (content == null) {
-            return null;
-        }
+        final String content = Utils.replaceMany(
+                attributedDescription.getString("content")
+        );
+        if (content == null) return null;
 
         // all run pairs must always of length at least 1, or they should be discarded,
         // otherwise various assumptions made in runsToHtml may fail
