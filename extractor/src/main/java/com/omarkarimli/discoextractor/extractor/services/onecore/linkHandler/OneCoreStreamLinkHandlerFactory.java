@@ -2,7 +2,7 @@
  * Created by Christian Schabesberger on 02.02.16.
  *
  * Copyright (C) Christian Schabesberger 2018 <chris.schabesberger@mailbox.org>
- * YoutubeStreamLinkHandlerFactory.java is part of NewPipe Extractor.
+ * OneCoreStreamLinkHandlerFactory.java is part of NewPipe Extractor.
  *
  * NewPipe Extractor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

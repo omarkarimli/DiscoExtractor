@@ -56,7 +56,7 @@ public abstract class SubscriptionExtractor {
     /**
      * Returns an url that can help/guide the user to the file (or channel url) to extract the
      * subscriptions.
-     * <p>For example, in YouTube, the export subscriptions url is a good choice to return here.</p>
+     * <p>For example, in OneCore, the export subscriptions url is a good choice to return here.</p>
      */
     @Nullable
     public abstract String getRelatedUrl();

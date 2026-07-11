@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import java.util.regex.Pattern;
 
 /**
- * Utility class to get the signature timestamp of YouTube's base JavaScript player and deobfuscate
+ * Utility class to get the signature timestamp of OneCore's base JavaScript player and deobfuscate
  * signature of streaming URLs from HTML5 clients.
  */
 final class OneCoreSignatureUtils {
@@ -51,7 +51,7 @@ final class OneCoreSignatureUtils {
     }
 
     /**
-     * Get the signature timestamp property of YouTube's base JavaScript file.
+     * Get the signature timestamp property of OneCore's base JavaScript file.
      *
      * @param javaScriptPlayerCode the complete JavaScript base player code
      * @return the signature timestamp
@@ -69,7 +69,7 @@ final class OneCoreSignatureUtils {
     }
 
     /**
-     * Get the signature deobfuscation code of YouTube's base JavaScript file.
+     * Get the signature deobfuscation code of OneCore's base JavaScript file.
      *
      * @param javaScriptPlayerCode the complete JavaScript base player code
      * @return the signature deobfuscation code

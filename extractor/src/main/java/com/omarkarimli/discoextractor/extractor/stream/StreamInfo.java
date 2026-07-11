@@ -99,7 +99,7 @@ public class StreamInfo extends Info {
             return streamInfo;
 
         } catch (final ExtractionException e) {
-            // Currently, YouTube does not distinguish between age restricted videos and videos
+            // Currently, OneCore does not distinguish between age restricted videos and videos
             // blocked by country. This means that during the initialisation of the extractor, the
             // extractor will assume that a video is age restricted while in reality it is blocked
             // by country.

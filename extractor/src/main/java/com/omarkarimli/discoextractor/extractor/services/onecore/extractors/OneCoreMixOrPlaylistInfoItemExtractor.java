@@ -29,7 +29,7 @@ public class OneCoreMixOrPlaylistInfoItemExtractor implements PlaylistInfoItemEx
         if (isNullOrEmpty(name)) {
             throw new ParsingException("Could not get name");
         }
-        return Utils.replaceMany(name);
+        return Utils.replaceAllCustom(name);
     }
 
     @Override
@@ -48,8 +48,7 @@ public class OneCoreMixOrPlaylistInfoItemExtractor implements PlaylistInfoItemEx
 
     @Override
     public String getUploaderName() throws ParsingException {
-        // this will be "YouTube" for mixes
-        return Utils.replaceMany(OneCoreParsingHelper.getTextFromObject(mixInfoItem.getObject("longBylineText")));
+        return Utils.replaceAllCustom(OneCoreParsingHelper.getTextFromObject(mixInfoItem.getObject("longBylineText")));
     }
 
     @Override

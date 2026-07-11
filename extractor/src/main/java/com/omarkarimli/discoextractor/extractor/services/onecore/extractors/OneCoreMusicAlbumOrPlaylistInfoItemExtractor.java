@@ -50,7 +50,7 @@ public class OneCoreMusicAlbumOrPlaylistInfoItemExtractor implements PlaylistInf
                 .getObject("text"));
 
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
 
         throw new ParsingException("Could not get name");
@@ -95,7 +95,7 @@ public class OneCoreMusicAlbumOrPlaylistInfoItemExtractor implements PlaylistInf
         }
 
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
 
         throw new ParsingException("Could not get uploader name");

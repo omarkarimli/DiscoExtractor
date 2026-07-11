@@ -11,6 +11,7 @@ import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreP
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.getValidJsonResponseBody;
 import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreParsingHelper.prepareDesktopJsonBuilder;
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.EMPTY_STRING;
+import static com.omarkarimli.discoextractor.extractor.utils.Utils.applyReplacementToJsonArray;
 import static com.omarkarimli.discoextractor.extractor.utils.Utils.isNullOrEmpty;
 
 import com.grack.nanojson.JsonArray;
@@ -116,10 +117,10 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
     public String getName() throws ParsingException {
         final String name = getTextFromObject(playlistInfo.getObject("title"));
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
 
-        return Utils.replaceMany(browseResponse.getObject("microformat")
+        return Utils.replaceAllCustom(browseResponse.getObject("microformat")
                 .getObject("microformatDataRenderer")
                 .getString("title"));
     }
@@ -167,7 +168,7 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
     @Override
     public String getUploaderName() throws ParsingException {
         try {
-            return Utils.replaceMany(getTextFromObject(getUploaderInfo().getObject("title")));
+            return Utils.replaceAllCustom(getTextFromObject(getUploaderInfo().getObject("title")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get playlist uploader name", e);
         }
@@ -191,7 +192,7 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
 
     @Override
     public boolean isUploaderVerified() throws ParsingException {
-        // YouTube doesn't provide this information
+        // OneCore doesn't provide this information
         return false;
     }
 
@@ -199,7 +200,7 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
     public long getStreamCount() throws ParsingException {
         try {
             final JsonArray stats = playlistInfo.getArray("stats");
-            // For unknown reasons, YouTube don't provide the stream count for learning playlists
+            // For unknown reasons, OneCore don't provide the stream count for learning playlists
             // on the desktop client but only the number of views and the playlist modified date
             // On normal playlists, at least 3 items are returned: the number of videos, the number
             // of views and the playlist modification date
@@ -243,14 +244,16 @@ public class OneCorePlaylistExtractor extends PlaylistExtractor {
         final StreamInfoItemsCollector collector = new StreamInfoItemsCollector(getServiceId());
         Page nextPage = null;
 
-        final JsonArray contents = browseResponse.getObject("contents")
-                .getObject("twoColumnBrowseResultsRenderer")
-                .getArray("tabs")
-                .getObject(0)
-                .getObject("tabRenderer")
-                .getObject("content")
-                .getObject("sectionListRenderer")
-                .getArray("contents");
+        final JsonArray contents = applyReplacementToJsonArray(
+                browseResponse.getObject("contents")
+                        .getObject("twoColumnBrowseResultsRenderer")
+                        .getArray("tabs")
+                        .getObject(0)
+                        .getObject("tabRenderer")
+                        .getObject("content")
+                        .getObject("sectionListRenderer")
+                        .getArray("contents")
+        );
 
         final JsonObject videoPlaylistObject = contents.stream()
                 .filter(JsonObject.class::isInstance)

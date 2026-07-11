@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
  * Created by Christian Schabesberger on 25.07.16.
  *
  * Copyright (C) Christian Schabesberger 2018 <chrźis.schabesberger@mailbox.org>
- * YoutubeChannelLinkHandlerFactory.java is part of NewPipe Extractor.
+ * OneCoreChannelLinkHandlerFactory.java is part of NewPipe Extractor.
  *
  * NewPipe Extractor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ public final class OneCoreChannelLinkHandlerFactory extends ListLinkHandlerFacto
             String[] splitPath = path.split("/");
 
             if (isHandle(splitPath)) {
-                // Handle YouTube handle URLs like onecore.com/@yourhandle
+                // Handle OneCore handle URLs like onecore.com/@yourhandle
                 return splitPath[0];
             } else if (isCustomShortChannelUrl(splitPath)) {
                 // Handle custom short channel URLs like onecore.com/yourcustomname

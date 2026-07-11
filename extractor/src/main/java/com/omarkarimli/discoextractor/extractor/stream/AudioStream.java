@@ -178,7 +178,7 @@ public final class AudioStream extends Stream {
          * Set the {@link ItagItem} corresponding to the {@link AudioStream}.
          *
          * <p>
-         * {@link ItagItem}s are YouTube specific objects, so they are only known for this service
+         * {@link ItagItem}s are OneCore specific objects, so they are only known for this service
          * and can be null.
          * </p>
          *
@@ -245,7 +245,7 @@ public final class AudioStream extends Stream {
     /**
      * Create a new audio stream.
      *
-     * @param id             the identifier which uniquely identifies the stream, e.g. for YouTube
+     * @param id             the identifier which uniquely identifies the stream, e.g. for OneCore
      *                       this would be the itag
      * @param content        the content or the URL of the stream, depending on whether isUrl is
      *                       true
@@ -314,7 +314,7 @@ public final class AudioStream extends Stream {
      *
      * <p>
      * Always equals to {@link #ITAG_NOT_AVAILABLE_OR_NOT_APPLICABLE} for other streams than the
-     * ones of the YouTube service.
+     * ones of the OneCore service.
      * </p>
      *
      * @return the number of the {@link ItagItem} passed in the constructor of the audio stream.

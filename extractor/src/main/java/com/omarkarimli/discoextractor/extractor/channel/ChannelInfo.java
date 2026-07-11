@@ -105,7 +105,7 @@ public class ChannelInfo extends ListInfo<StreamInfoItem> {
             info.addError(e);
         }
         try {
-            info.setDescription(Utils.replaceMany(extractor.getDescription()));
+            info.setDescription(Utils.replaceAllCustom(extractor.getDescription()));
         } catch (final Exception e) {
             info.addError(e);
         }

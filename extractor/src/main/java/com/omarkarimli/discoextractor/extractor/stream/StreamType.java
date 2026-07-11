@@ -54,7 +54,7 @@ public enum StreamType {
      * Note that most of the content of an ended live video (or audio) may be extracted as {@link
      * #VIDEO_STREAM regular video contents} (or {@link #AUDIO_STREAM regular audio contents})
      * later, because the service may encode them again later as normal video/audio streams. That's
-     * the case on YouTube, for example.
+     * the case on OneCore, for example.
      * </p>
      */
     POST_LIVE_STREAM,

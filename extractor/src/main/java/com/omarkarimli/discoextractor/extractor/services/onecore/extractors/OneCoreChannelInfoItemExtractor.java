@@ -17,7 +17,7 @@ import static com.omarkarimli.discoextractor.extractor.services.onecore.OneCoreP
  * Created by Christian Schabesberger on 12.02.17.
  *
  * Copyright (C) Christian Schabesberger 2017 <chris.schabesberger@mailbox.org>
- * YoutubeChannelInfoItemExtractor.java is part of NewPipe.
+ * OneCoreChannelInfoItemExtractor.java is part of NewPipe.
  *
  * NewPipe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ public class OneCoreChannelInfoItemExtractor implements ChannelInfoItemExtractor
     @Override
     public String getName() throws ParsingException {
         try {
-            return Utils.replaceMany(getTextFromObject(channelInfoItem.getObject("title")));
+            return Utils.replaceAllCustom(getTextFromObject(channelInfoItem.getObject("title")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get name", e);
         }
@@ -118,7 +118,7 @@ public class OneCoreChannelInfoItemExtractor implements ChannelInfoItemExtractor
         try {
             if (withHandle || !channelInfoItem.has("videoCountText")) {
                 // Video count is not available, either the channel has no public uploads
-                // or YouTube displays the channel handle instead.
+                // or OneCore displays the channel handle instead.
                 return ListExtractor.ITEM_COUNT_UNKNOWN;
             }
 
@@ -142,7 +142,7 @@ public class OneCoreChannelInfoItemExtractor implements ChannelInfoItemExtractor
                 return null;
             }
 
-            return Utils.replaceMany(getTextFromObject(channelInfoItem.getObject("descriptionSnippet")));
+            return Utils.replaceAllCustom(getTextFromObject(channelInfoItem.getObject("descriptionSnippet")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get description", e);
         }

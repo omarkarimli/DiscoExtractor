@@ -73,7 +73,7 @@ public final class OneCoreDescriptionHelper {
     ) {
         if (isNullOrEmpty(attributedDescription)) return null;
 
-        final String content = Utils.replaceMany(
+        final String content = Utils.replaceAllCustom(
                 attributedDescription.getString("content")
         );
         if (content == null) return null;

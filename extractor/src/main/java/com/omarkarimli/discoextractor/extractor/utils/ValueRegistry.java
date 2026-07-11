@@ -1,0 +1,70 @@
+package com.omarkarimli.discoextractor.extractor.utils;
+
+import java.util.Arrays;
+import java.util.List;
+
+public interface ValueRegistry {
+    List<String> OLD_VALUES_ALL = Arrays.asList(
+            "YouTube",
+            "YouTube Music",
+            "YouTube TV",
+            "YouTube Studio",
+            "YouTube Premium",
+            "YouTube Kids",
+            "YouTube Shorts",
+            "YouTube Live",
+            "YouTube Gaming",
+            "YouTube Creator Studio",
+            "YouTube Analytics",
+            "YouTube Partner Program",
+            "YT",
+            "YT Music",
+            "YTM",
+            "YT TV",
+            "YT Studio",
+            "YT Premium",
+            "YT Kids",
+            "YT Shorts",
+            "YT Live",
+            "YT Gaming",
+            "YPP",
+            "yt",
+            "yt music",
+            "ytm",
+            "yt tv",
+            "yt studio",
+            "yt premium",
+            "yt kids",
+            "yt shorts",
+            "yt live",
+            "yt gaming",
+            "yt creator studio",
+            "yt analytics",
+            "yt partner program"
+    );
+    List<String> OLD_VALUES_NAMES = Arrays.asList(
+            "YouTube",
+            "YouTube Music",
+            "YouTube TV",
+            "YouTube Studio",
+            "YouTube Premium",
+            "YouTube Kids",
+            "YouTube Shorts",
+            "YouTube Live",
+            "YouTube Gaming",
+            "YouTube Creator Studio",
+            "YouTube Analytics",
+            "YouTube Partner Program",
+            "YT",
+            "YT Music",
+            "YTM",
+            "YT TV",
+            "YT Studio",
+            "YT Premium",
+            "YT Kids",
+            "YT Shorts",
+            "YT Live",
+            "YT Gaming",
+            "YPP"
+    );
+}

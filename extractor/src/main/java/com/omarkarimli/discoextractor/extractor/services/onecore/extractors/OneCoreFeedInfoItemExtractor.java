@@ -44,7 +44,7 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
 
     @Override
     public String getUploaderName() {
-        return Utils.replaceMany(entryElement.select("author > name").first().text());
+        return Utils.replaceAllCustom(entryElement.select("author > name").first().text());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
     @Nullable
     @Override
     public String getTextualUploadDate() {
-        return Utils.replaceMany(entryElement.getElementsByTag("published").first().text());
+        return Utils.replaceAllCustom(entryElement.getElementsByTag("published").first().text());
     }
 
     @Nullable
@@ -82,7 +82,7 @@ public class OneCoreFeedInfoItemExtractor implements StreamInfoItemExtractor {
 
     @Override
     public String getName() {
-        return Utils.replaceMany(entryElement.getElementsByTag("title").first().text());
+        return Utils.replaceAllCustom(entryElement.getElementsByTag("title").first().text());
     }
 
     @Override

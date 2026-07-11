@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Decoder for YouTube signature and throttling parameters using the PipePipe API.
+ * Decoder for OneCore signature and throttling parameters using the PipePipe API.
  *
  * <p>
  * This class replaces the local JavaScript-based decoding with API calls to
@@ -42,7 +42,7 @@ public final class OneCoreApiDecoder {
     /**
      * Decode a signature parameter using the PipePipe API.
      *
-     * @param playerId  the YouTube player ID (8-character hash)
+     * @param playerId  the OneCore player ID (8-character hash)
      * @param signature the obfuscated signature to decode
      * @return the deobfuscated signature
      * @throws ParsingException if the API call fails or returns invalid data
@@ -56,7 +56,7 @@ public final class OneCoreApiDecoder {
     /**
      * Decode a throttling parameter (n parameter) using the PipePipe API.
      *
-     * @param playerId          the YouTube player ID (8-character hash)
+     * @param playerId          the OneCore player ID (8-character hash)
      * @param nParameter        the obfuscated n parameter to decode
      * @return the deobfuscated n parameter
      * @throws ParsingException if the API call fails or returns invalid data
@@ -71,7 +71,7 @@ public final class OneCoreApiDecoder {
     /**
      * Generic decode method that calls the PipePipe API.
      *
-     * @param playerId   the YouTube player ID (8-character hash)
+     * @param playerId   the OneCore player ID (8-character hash)
      * @param paramType  the parameter type ("sig" or "n")
      * @param value      the obfuscated value to decode
      * @return the deobfuscated value
@@ -154,7 +154,7 @@ public final class OneCoreApiDecoder {
     /**
      * Batch decode multiple signatures and throttling parameters in a single API call.
      *
-     * @param playerId        the YouTube player ID (8-character hash)
+     * @param playerId        the OneCore player ID (8-character hash)
      * @param signatureParams list of obfuscated signatures to decode (can be null or empty)
      * @param nParams         list of obfuscated n parameters to decode (can be null or empty)
      * @return a BatchDecodeResult containing the decoded values

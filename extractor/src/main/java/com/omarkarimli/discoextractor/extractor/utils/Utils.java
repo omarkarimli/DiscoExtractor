@@ -1,7 +1,8 @@
 package com.omarkarimli.discoextractor.extractor.utils;
 
+import com.grack.nanojson.JsonArray;
+import com.grack.nanojson.JsonObject;
 import com.omarkarimli.discoextractor.extractor.exceptions.ParsingException;
-
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,7 +21,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -526,52 +526,50 @@ public final class Utils {
         return sb.toString();
     }
 
-    public static String replaceMany(String text) {
+    public static String replaceAllCustom(String text) {
         if (text == null) return null;
 
-        List<String> oldValues = Arrays.asList(
-                "YouTube",
-                "YouTube Music",
-                "YouTube TV",
-                "YouTube Studio",
-                "YouTube Premium",
-                "YouTube Kids",
-                "YouTube Shorts",
-                "YouTube Live",
-                "YouTube Gaming",
-                "YouTube Creator Studio",
-                "YouTube Analytics",
-                "YouTube Partner Program",
-                "YT",
-                "YT Music",
-                "YTM",
-                "YT TV",
-                "YT Studio",
-                "YT Premium",
-                "YT Kids",
-                "YT Shorts",
-                "YT Live",
-                "YT Gaming",
-                "YPP",
-                "yt",
-                "yt music",
-                "ytm",
-                "yt tv",
-                "yt studio",
-                "yt premium",
-                "yt kids",
-                "yt shorts",
-                "yt live",
-                "yt gaming",
-                "yt creator studio",
-                "yt analytics",
-                "yt partner program"
-        );
+        List<String> valueList = ValueRegistry.OLD_VALUES_NAMES;
         String newValue = "Disco";
 
-        return oldValues.stream().reduce(
+        return valueList.stream().reduce(
                 text,
                 (accumulator, oldValue) -> accumulator.replace(oldValue, newValue)
         );
+    }
+
+    public static JsonArray applyReplacementToJsonArray(JsonArray array) {
+        if (array == null) return null;
+
+        for (int i = 0; i < array.size(); i++) {
+            Object value = array.get(i);
+
+            if (value instanceof String) {
+                // Apply your custom replacement logic
+                array.set(i, replaceAllCustom((String) value));
+            } else if (value instanceof JsonObject) {
+                applyReplacementToJsonObject((JsonObject) value);
+            } else if (value instanceof JsonArray) {
+                applyReplacementToJsonArray((JsonArray) value);
+            }
+        }
+        return array;
+    }
+
+    public static void applyReplacementToJsonObject(JsonObject object) {
+        if (object == null) return;
+
+        for (String key : object.keySet()) {
+            Object value = object.get(key);
+
+            if (value instanceof String) {
+                // Apply your custom replacement logic
+                object.put(key, replaceAllCustom((String) value));
+            } else if (value instanceof JsonObject) {
+                applyReplacementToJsonObject((JsonObject) value);
+            } else if (value instanceof JsonArray) {
+                applyReplacementToJsonArray((JsonArray) value);
+            }
+        }
     }
 }

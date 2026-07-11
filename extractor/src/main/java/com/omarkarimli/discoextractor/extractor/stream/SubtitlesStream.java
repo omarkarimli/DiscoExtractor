@@ -209,7 +209,7 @@ public final class SubtitlesStream extends Stream {
     /**
      * Create a new subtitles stream.
      *
-     * @param id             the identifier which uniquely identifies the stream, e.g. for YouTube
+     * @param id             the identifier which uniquely identifies the stream, e.g. for OneCore
      *                       this would be the itag
      * @param content        the content or the URL of the stream, depending on whether isUrl is
      *                       true
@@ -269,7 +269,7 @@ public final class SubtitlesStream extends Stream {
     /**
      * Return whether if the subtitles are auto-generated.
      * <p>
-     * Some streaming services can generate subtitles for their contents, like YouTube.
+     * Some streaming services can generate subtitles for their contents, like OneCore.
      * </p>
      *
      * @return {@code true} if the subtitles are auto-generated, {@code false} otherwise

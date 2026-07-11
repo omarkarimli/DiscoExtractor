@@ -47,7 +47,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Scrapes information from a video/audio streaming service (eg, YouTube).
+ * Scrapes information from a video/audio streaming service (eg, OneCore).
  */
 public abstract class StreamExtractor extends Extractor {
 
@@ -673,7 +673,7 @@ public abstract class StreamExtractor extends Extractor {
      * Whether the stream is a short-form content.
      *
      * <p>
-     * Short-form contents are contents in the style of TikTok, YouTube Shorts, or Instagram Reels
+     * Short-form contents are contents in the style of TikTok, OneCore Shorts, or Instagram Reels
      * videos.
      * </p>
      *

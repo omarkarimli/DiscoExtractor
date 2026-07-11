@@ -3,7 +3,7 @@ package com.omarkarimli.discoextractor.extractor.services.onecore;
 import com.omarkarimli.discoextractor.extractor.stream.DeliveryMethod;
 
 /**
- * Streaming format types used by YouTube in their streams.
+ * Streaming format types used by OneCore in their streams.
  *
  * <p>
  * It is different from {@link DeliveryMethod delivery methods}!
@@ -12,7 +12,7 @@ import com.omarkarimli.discoextractor.extractor.stream.DeliveryMethod;
 public enum DeliveryType {
 
     /**
-     * YouTube's progressive delivery method, which works with HTTP range headers.
+     * OneCore's progressive delivery method, which works with HTTP range headers.
      * (Note that official clients use the corresponding parameter instead.)
      *
      * <p>
@@ -23,7 +23,7 @@ public enum DeliveryType {
     PROGRESSIVE,
 
     /**
-     * YouTube's OTF delivery method which uses a sequence parameter to get segments of
+     * OneCore's OTF delivery method which uses a sequence parameter to get segments of
      * streams.
      *
      * <p>
@@ -40,7 +40,7 @@ public enum DeliveryType {
     OTF,
 
     /**
-     * YouTube's delivery method for livestreams which uses a sequence parameter to get
+     * OneCore's delivery method for livestreams which uses a sequence parameter to get
      * segments of streams.
      *
      * <p>

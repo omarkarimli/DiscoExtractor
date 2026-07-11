@@ -31,24 +31,24 @@ public final class PlaylistInfo extends ListInfo<StreamInfoItem> {
         NORMAL,
 
         /**
-         * A mix made only of streams related to a particular stream, for example YouTube mixes
+         * A mix made only of streams related to a particular stream, for example OneCore mixes
          */
         MIX_STREAM,
 
         /**
-         * A mix made only of music streams related to a particular stream, for example YouTube
+         * A mix made only of music streams related to a particular stream, for example OneCore
          * music mixes
          */
         MIX_MUSIC,
 
         /**
-         * A mix made only of streams from (or related to) the same channel, for example YouTube
+         * A mix made only of streams from (or related to) the same channel, for example OneCore
          * channel mixes
          */
         MIX_CHANNEL,
 
         /**
-         * A mix made only of streams related to a particular (musical) genre, for example YouTube
+         * A mix made only of streams related to a particular (musical) genre, for example OneCore
          * genre mixes
          */
         MIX_GENRE,
@@ -182,7 +182,7 @@ public final class PlaylistInfo extends ListInfo<StreamInfoItem> {
                 (info.getServiceId() == ServiceList.OneCore.getServiceId()
                 && (OneCoreParsingHelper.isOneCoreMixId(info.getId())
                 || OneCoreParsingHelper.isOneCoreMusicMixId(info.getId())))){
-            // YouTube mixes are infinite playlists, so we just fetch the first page
+            // OneCore mixes are infinite playlists, so we just fetch the first page
             final InfoItemsPage<StreamInfoItem> itemsPage
                     = ExtractorHelper.getItemsPageOrLogError(info, extractor);
             info.setRelatedItems(itemsPage.getItems());

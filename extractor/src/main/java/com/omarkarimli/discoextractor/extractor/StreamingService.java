@@ -223,7 +223,7 @@ public abstract class StreamingService {
     public abstract SubscriptionExtractor getSubscriptionExtractor();
 
     /**
-     * This method decides which strategy will be chosen to fetch the feed. In YouTube, for example,
+     * This method decides which strategy will be chosen to fetch the feed. In OneCore, for example,
      * a separate feed exists which is lightweight and made specifically to be used like this.
      * <p>
      * In services which there's no other way to retrieve them, null should be returned.

@@ -60,7 +60,7 @@ public final class OneCorePlaylistLinkHandlerFactory extends ListLinkHandlerFact
             if (OneCoreParsingHelper.isOneCoreChannelMixId(listID)
                     && Utils.getQueryValue(urlObj, "v") == null) {
                 // Video id can't be determined from the channel mix id.
-                // See YoutubeParsingHelper#extractVideoIdFromMixId
+                // See OneCoreParsingHelper#extractVideoIdFromMixId
                 throw new ContentNotSupportedException(
                         "Channel Mix without a video id are not supported");
             }
@@ -84,7 +84,7 @@ public final class OneCorePlaylistLinkHandlerFactory extends ListLinkHandlerFact
 
     /**
      * If it is a mix (auto-generated playlist) URL, return a {@link LinkHandler} where the URL is
-     * like {@code https://youtube.com/watch?v=videoId&list=playlistId}
+     * like {@code https://onecore.com/watch?v=videoId&list=playlistId}
      * <p>Otherwise use super</p>
      */
     @Override

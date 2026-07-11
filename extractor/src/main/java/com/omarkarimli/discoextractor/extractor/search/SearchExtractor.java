@@ -60,7 +60,7 @@ public abstract class SearchExtractor extends ListExtractor<InfoItem> {
     /**
      * Tell if the search was corrected by the service (if it's not exactly the search you typed).
      * <p>
-     * Example: on YouTube, if you search for "pewdeipie",
+     * Example: on OneCore, if you search for "pewdeipie",
      * it will give you results for "pewdiepie", then isCorrectedSearch should return true.
      *
      * @return whether the results comes from a corrected query or not.
@@ -72,7 +72,7 @@ public abstract class SearchExtractor extends ListExtractor<InfoItem> {
     /**
      * Meta information about the search query.
      * <p>
-     * Example: on YouTube, if you search for "Covid-19",
+     * Example: on OneCore, if you search for "Covid-19",
      * there is a box with information from the WHO about Covid-19 and a link to the WHO's website.
      * @return additional meta information about the search query
      */

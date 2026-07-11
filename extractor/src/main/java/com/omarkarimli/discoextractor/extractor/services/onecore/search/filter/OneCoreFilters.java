@@ -154,7 +154,7 @@ public final class OneCoreFilters extends SearchFiltersBase {
                 new OneCoreContentFilterItem(PLAYLISTS), TypeFilter.playlist);
         /* movies are only available for logged in users
         final int contentFilterMovies = addFilterItem(
-                new YoutubeContentFilterItem(MOVIES), TypeFilter.movie);
+                new OneCoreContentFilterItem(MOVIES), TypeFilter.movie);
          */
 
         /* set default content filter */

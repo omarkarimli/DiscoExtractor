@@ -7,11 +7,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Manage the extraction and the usage of YouTube's player JavaScript needed data in the YouTube
+ * Manage the extraction and the usage of OneCore's player JavaScript needed data in the OneCore
  * service.
  *
  * <p>
- * YouTube restrict streaming their media in multiple ways by requiring their HTML5 clients to use
+ * OneCore restrict streaming their media in multiple ways by requiring their HTML5 clients to use
  * a signature timestamp, and on streaming URLs a signature deobfuscation function for some
  * contents and a throttling parameter deobfuscation one for all contents.
  * </p>
@@ -50,7 +50,7 @@ public final class OneCoreJavaScriptPlayerManager {
      * </p>
      *
      * @param videoId the video ID used to get the JavaScript base player file (an empty one can be
-     *                passed, even it is not recommend in order to spoof better official YouTube
+     *                passed, even it is not recommend in order to spoof better official OneCore
      *                clients)
      * @return the signature timestamp of the base JavaScript player file
      * @throws ParsingException if the extraction of the signature timestamp failed
@@ -84,7 +84,7 @@ public final class OneCoreJavaScriptPlayerManager {
      *
      * @param videoId             the video ID used to get the JavaScript base player ID (an
      *                            empty one can be passed, even it is not recommend in order to
-     *                            spoof better official YouTube clients)
+     *                            spoof better official OneCore clients)
      * @param obfuscatedSignature the obfuscated signature of a streaming URL
      * @return the deobfuscated signature
      * @throws ParsingException if the extraction of the player ID or the API call failed
@@ -112,7 +112,7 @@ public final class OneCoreJavaScriptPlayerManager {
      *
      * @param videoId      the video ID used to get the JavaScript base player ID (an empty one
      *                     can be passed, even it is not recommend in order to spoof better
-     *                     official YouTube clients)
+     *                     official OneCore clients)
      * @param streamingUrl a streaming URL
      * @return the original streaming URL if it has no throttling parameter or a URL with a
      * deobfuscated throttling parameter
@@ -208,7 +208,7 @@ public final class OneCoreJavaScriptPlayerManager {
      * Extract the player ID if it isn't already cached.
      *
      * @param videoId the video ID used to get the JavaScript base player ID (an empty one can be
-     *                passed, even it is not recommend in order to spoof better official YouTube
+     *                passed, even it is not recommend in order to spoof better official OneCore
      *                clients)
      * @throws ParsingException if the extraction of the player ID failed
      */

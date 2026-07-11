@@ -3,7 +3,7 @@ package com.omarkarimli.discoextractor.extractor.services.onecore.dashmanifestcr
 import javax.annotation.Nonnull;
 
 /**
- * Exception that is thrown when a YouTube DASH manifest creator encounters a problem
+ * Exception that is thrown when a OneCore DASH manifest creator encounters a problem
  * while creating a manifest.
  */
 public final class CreationException extends RuntimeException {

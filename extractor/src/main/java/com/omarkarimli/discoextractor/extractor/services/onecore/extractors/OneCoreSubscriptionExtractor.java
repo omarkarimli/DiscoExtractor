@@ -130,8 +130,8 @@ public class OneCoreSubscriptionExtractor extends SubscriptionExtractor {
             throws ExtractionException {
         // Expected format of CSV file:
         // Channel Id,Channel Url,Channel Title
-        //UC1JTQBa5QxZCpXrFSkMxmPw,http://www.youtube.com/channel/UC1JTQBa5QxZCpXrFSkMxmPw,Raycevick
-        //UCFl7yKfcRcFmIUbKeCA-SJQ,http://www.youtube.com/channel/UCFl7yKfcRcFmIUbKeCA-SJQ,Joji
+        //UC1JTQBa5QxZCpXrFSkMxmPw,http://www.onecore.com/channel/UC1JTQBa5QxZCpXrFSkMxmPw,Raycevick
+        //UCFl7yKfcRcFmIUbKeCA-SJQ,http://www.onecore.com/channel/UCFl7yKfcRcFmIUbKeCA-SJQ,Joji
         //
         // Notes:
         //      It's always 3 columns

@@ -384,7 +384,7 @@ public class OneCoreCommentsExtractor extends CommentsExtractor {
         } else if (content.has(COMMENT_RENDERER_KEY)) {
             // commentRenderers are directly returned for comment replies, so there is no
             // commentRepliesRenderer to provide
-            // Also, YouTube has only one comment reply level
+            // Also, OneCore has only one comment reply level
             collector.commit(new OneCoreCommentsInfoItemExtractor(
                     content.getObject(COMMENT_RENDERER_KEY),
                     null,

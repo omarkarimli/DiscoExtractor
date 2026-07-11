@@ -24,7 +24,7 @@ public abstract class ListExtractor<R extends InfoItem> extends Extractor {
     public static final long ITEM_COUNT_UNKNOWN = -1;
     /**
      * Constant that should be returned whenever a list has an
-     * infinite number of items. For example a YouTube mix.
+     * infinite number of items. For example a OneCore mix.
      */
     public static final long ITEM_COUNT_INFINITE = -2;
     /**

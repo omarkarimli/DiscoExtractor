@@ -27,7 +27,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 /**
- * Class which generates DASH manifests of YouTube post-live DVR streams (which use the
+ * Class which generates DASH manifests of OneCore post-live DVR streams (which use the
  * {@link DeliveryType#LIVE LIVE delivery type}).
  */
 public final class OneCorePostLiveStreamDvrDashManifestCreator {
@@ -42,10 +42,10 @@ public final class OneCorePostLiveStreamDvrDashManifestCreator {
     }
 
     /**
-     * Create DASH manifests from a YouTube post-live-DVR stream/ended livestream.
+     * Create DASH manifests from a OneCore post-live-DVR stream/ended livestream.
      *
      * <p>
-     * Post-live-DVR streams/ended livestreams are one of the YouTube DASH specific streams which
+     * Post-live-DVR streams/ended livestreams are one of the OneCore DASH specific streams which
      * works with sequences and without the need to get a manifest (even if one is provided but not
      * used by main clients (and is not complete for big ended livestreams because it doesn't
      * return the full stream)).
@@ -98,7 +98,7 @@ public final class OneCorePostLiveStreamDvrDashManifestCreator {
      *                                      must not be null
      * @param targetDurationSec             the target duration of each sequence, in seconds (this
      *                                      value is returned with the {@code targetDurationSec}
-     *                                      field for each stream in YouTube's player response)
+     *                                      field for each stream in OneCore's player response)
      * @param durationSecondsFallback       the duration of the ended livestream, which will be
      *                                      used if the duration could not be extracted from the
      *                                      first sequence
@@ -190,7 +190,7 @@ public final class OneCorePostLiveStreamDvrDashManifestCreator {
      *
      * @param doc                   the {@link Document} on which the {@code <S>} element will
      *                              be appended
-     * @param targetDurationSeconds the {@code targetDurationSec} value from YouTube player
+     * @param targetDurationSeconds the {@code targetDurationSec} value from OneCore player
      *                              response's stream
      * @param segmentCount          the number of segments, extracted by {@link
      *                              #fromPostLiveStreamDvrStreamingUrl(String, ItagItem, int, long)}

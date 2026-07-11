@@ -43,7 +43,7 @@ public class OneCoreMusicArtistInfoItemExtractor implements ChannelInfoItemExtra
                 .getObject("musicResponsiveListItemFlexColumnRenderer")
                 .getObject("text"));
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
         throw new ParsingException("Could not get name");
     }
@@ -66,7 +66,7 @@ public class OneCoreMusicArtistInfoItemExtractor implements ChannelInfoItemExtra
                 .getObject("musicResponsiveListItemFlexColumnRenderer")
                 .getObject("text")
                 .getArray("runs");
-        // NOTE: YoutubeParsingHelper#getTextFromObject would use all entries from the run array,
+        // NOTE: OneCoreParsingHelper#getTextFromObject would use all entries from the run array,
         // which is not wanted as only the last entry contains the actual subscriberCount
         final String subscriberCount = runs.getObject(runs.size() - 1)
                 .getString("text");
@@ -88,7 +88,7 @@ public class OneCoreMusicArtistInfoItemExtractor implements ChannelInfoItemExtra
 
     @Override
     public boolean isVerified() {
-        // An artist on YouTube Music is always verified
+        // An artist on OneCore Music is always verified
         return true;
     }
 

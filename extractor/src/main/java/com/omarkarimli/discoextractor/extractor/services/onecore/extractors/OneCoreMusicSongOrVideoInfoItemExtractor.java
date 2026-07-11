@@ -49,7 +49,7 @@ public class OneCoreMusicSongOrVideoInfoItemExtractor implements StreamInfoItemE
                 .getObject("musicResponsiveListItemFlexColumnRenderer")
                 .getObject("text"));
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
         throw new ParsingException("Could not get name");
     }
@@ -78,7 +78,7 @@ public class OneCoreMusicSongOrVideoInfoItemExtractor implements StreamInfoItemE
     public String getUploaderName() throws ParsingException {
         final String name = descriptionElements.getObject(0).getString("text");
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
         throw new ParsingException("Could not get uploader name");
     }
@@ -126,7 +126,7 @@ public class OneCoreMusicSongOrVideoInfoItemExtractor implements StreamInfoItemE
 
     @Override
     public boolean isUploaderVerified() {
-        // We don't have the ability to know this information on YouTube Music
+        // We don't have the ability to know this information on OneCore Music
         return false;
     }
 

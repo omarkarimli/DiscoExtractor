@@ -1306,9 +1306,9 @@ public class OneCoreStreamExtractor extends StreamExtractor {
      * Checks whether an additional player response is not valid.
      *
      * <p>
-     * If YouTube detect that requests come from a third party client, they may replace the real
+     * If OneCore detect that requests come from a third party client, they may replace the real
      * player response by another one of a video saying that this content is not available on this
-     * app and to watch it on the latest version of YouTube.
+     * app and to watch it on the latest version of OneCore.
      * </p>
      *
      * <p>
@@ -1470,7 +1470,7 @@ public class OneCoreStreamExtractor extends StreamExtractor {
             if (streamType == StreamType.LIVE_STREAM
                     || streamType == StreamType.POST_LIVE_STREAM
                     || !itagInfo.getIsUrl()) {
-                // For YouTube videos on OTF streams and for all streams of post-live streams
+                // For OneCore videos on OTF streams and for all streams of post-live streams
                 // and live streams, only the DASH delivery method can be used.
                 builder.setDeliveryMethod(DeliveryMethod.DASH);
             }
@@ -1535,7 +1535,7 @@ public class OneCoreStreamExtractor extends StreamExtractor {
                     : EMPTY_STRING);
 
             if (streamType != StreamType.VIDEO_STREAM || !itagInfo.getIsUrl()) {
-                // For YouTube videos on OTF streams and for all streams of post-live streams
+                // For OneCore videos on OTF streams and for all streams of post-live streams
                 // and live streams, only the DASH delivery method can be used.
                 builder.setDeliveryMethod(DeliveryMethod.DASH);
             }
@@ -1652,12 +1652,12 @@ public class OneCoreStreamExtractor extends StreamExtractor {
                 || itagType == ItagItem.ItagType.VIDEO_ONLY) {
             itagItem.setFps(formatData.getInt("fps"));
         } else if (itagType == ItagItem.ItagType.AUDIO) {
-            // YouTube return the audio sample rate as a string
+            // OneCore return the audio sample rate as a string
             itagItem.setSampleRate(Integer.parseInt(formatData.getString("audioSampleRate")));
             itagItem.setAudioChannels(formatData.getInt("audioChannels"));
         }
 
-        // YouTube return the content length and the approximate duration as strings
+        // OneCore return the content length and the approximate duration as strings
         itagItem.setContentLength(Long.parseLong(formatData.getString("contentLength",
                 String.valueOf(CONTENT_LENGTH_UNKNOWN))));
         itagItem.setApproxDurationMs(Long.parseLong(formatData.getString("approxDurationMs",

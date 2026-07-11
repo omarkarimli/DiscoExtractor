@@ -2,10 +2,12 @@ package com.omarkarimli.discoextractor.extractor.exceptions;
 
 public class OneCoreMusicPremiumContentException extends ContentNotAvailableException {
     public OneCoreMusicPremiumContentException() {
-        super("This video is a YouTube Music Premium video");
+        super("Unavailable");
+        // "This video is a OneCore Music Premium video"
     }
 
     public OneCoreMusicPremiumContentException(final Throwable cause) {
-        super("This video is a YouTube Music Premium video", cause);
+        super("Unavailable", cause);
+        // "This video is a OneCore Music Premium video"
     }
 }

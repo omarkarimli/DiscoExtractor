@@ -125,7 +125,7 @@ public final class OneCoreThrottlingParameterUtils {
     }
 
     /**
-     * Get the throttling parameter deobfuscation function name of YouTube's base JavaScript file.
+     * Get the throttling parameter deobfuscation function name of OneCore's base JavaScript file.
      *
      * @param javaScriptPlayerCode the complete JavaScript base player code
      * @return the name of the throttling parameter deobfuscation function
@@ -157,7 +157,7 @@ public final class OneCoreThrottlingParameterUtils {
     }
 
     /**
-     * Get the throttling parameter deobfuscation code of YouTube's base JavaScript file.
+     * Get the throttling parameter deobfuscation code of OneCore's base JavaScript file.
      *
      * @param javaScriptPlayerCode the complete JavaScript base player code
      * @return the throttling parameter deobfuscation function name

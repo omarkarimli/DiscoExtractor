@@ -41,7 +41,7 @@ final class OneCoreJavaScriptExtractor {
     // Override hash - set this to force a specific player version
 
 
-    // Set to null to use the default behavior (extract from YouTube)
+    // Set to null to use the default behavior (extract from OneCore)
 
 
     private static final String OVERRIDE_PLAYER_HASH = "";
@@ -104,7 +104,7 @@ final class OneCoreJavaScriptExtractor {
      * Extracts the JavaScript base player file.
      *
      * @param videoId the video ID used to get the JavaScript base player file (an empty one can be
-     *                passed, even it is not recommend in order to spoof better official YouTube
+     *                passed, even it is not recommend in order to spoof better official OneCore
      *                clients)
      * @return the whole JavaScript base player file as a string
      * @throws ParsingException if the extraction of the file failed
@@ -211,8 +211,8 @@ final class OneCoreJavaScriptExtractor {
             // https part has to be added manually if the URL is protocol-relative
             return HTTPS + javaScriptPlayerUrl;
         } else if (javaScriptPlayerUrl.startsWith("/")) {
-            // https://www.youtube.com part has to be added manually if the URL is relative to
-            // YouTube's domain
+            // https://www.onecore.com part has to be added manually if the URL is relative to
+            // OneCore's domain
             return HTTPS + "//www.onecore.com" + javaScriptPlayerUrl;
         } else {
             return javaScriptPlayerUrl;

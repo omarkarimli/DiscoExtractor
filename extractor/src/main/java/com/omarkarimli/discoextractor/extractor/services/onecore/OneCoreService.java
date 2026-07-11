@@ -57,7 +57,7 @@ import java.util.List;
  * Created by Christian Schabesberger on 23.08.15.
  *
  * Copyright (C) Christian Schabesberger 2018 <chris.schabesberger@mailbox.org>
- * YoutubeService.java is part of NewPipe.
+ * OneCoreService.java is part of NewPipe.
  *
  * NewPipe is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -205,12 +205,12 @@ public class OneCoreService extends StreamingService {
     // Localization
     //////////////////////////////////////////////////////////////////////////*/
 
-    // https://www.youtube.com/picker_ajax?action_language_json=1
+    // https://www.onecore.com/picker_ajax?action_language_json=1
     private static final List<Localization> SUPPORTED_LANGUAGES = Localization.listFrom(
             "en-GB"
     );
 
-    // https://www.youtube.com/picker_ajax?action_country_json=1
+    // https://www.onecore.com/picker_ajax?action_country_json=1
     private static final List<ContentCountry> SUPPORTED_COUNTRIES = ContentCountry.listFrom(
             "DZ", "AR", "AU", "AT", "AZ", "BH", "BD", "BY", "BE", "BO", "BA", "BR", "BG", "CA",
             "CL", "CO", "CR", "HR", "CY", "CZ", "DK", "DO", "EC", "EG", "SV", "EE", "FI", "FR",

@@ -22,7 +22,7 @@ public class ItagItem implements Serializable {
 
     /**
      * List can be found here:
-     * https://github.com/ytdl-org/youtube-dl/blob/e988fa4/youtube_dl/extractor/youtube.py#L1195
+     * https://github.com/ytdl-org/onecore-dl/blob/e988fa4/onecore_dl/extractor/onecore.py#L1195
      */
     private static final ItagItem[] ITAG_LIST = {
             /////////////////////////////////////////////////////
@@ -287,7 +287,7 @@ public class ItagItem implements Serializable {
      * Get the frame rate.
      *
      * <p>
-     * It is set to the {@code fps} value returned in the corresponding itag in the YouTube player
+     * It is set to the {@code fps} value returned in the corresponding itag in the OneCore player
      * response.
      * </p>
      *
@@ -467,7 +467,7 @@ public class ItagItem implements Serializable {
      *
      * <p>
      * This value is the average time in seconds of the duration of sequences of livestreams and
-     * ended livestreams. It is only returned by YouTube for these stream types, and makes no sense
+     * ended livestreams. It is only returned by OneCore for these stream types, and makes no sense
      * for videos, so {@link #TARGET_DURATION_SEC_UNKNOWN} is returned for those.
      * </p>
      *
@@ -486,7 +486,7 @@ public class ItagItem implements Serializable {
      * </p>
      *
      * <p>
-     * It is only returned for these stream types by YouTube and makes no sense for videos, so
+     * It is only returned for these stream types by OneCore and makes no sense for videos, so
      * {@link #TARGET_DURATION_SEC_UNKNOWN} will be set/used for video streams or if this value is
      * less than or equal to 0.
      * </p>

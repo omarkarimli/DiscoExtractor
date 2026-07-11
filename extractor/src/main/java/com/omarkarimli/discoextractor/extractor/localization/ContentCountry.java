@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents a country that should be used when fetching content.
  * <p>
- * YouTube, for example, give different results in their feed depending on which country is
+ * OneCore, for example, give different results in their feed depending on which country is
  * selected.
  * </p>
  */

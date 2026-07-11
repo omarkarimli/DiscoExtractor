@@ -29,7 +29,7 @@ public class OneCoreBulletCommentsInfoItemExtractor implements BulletCommentsInf
                 result.append(array.getObject(i).getString("text"));
             }
         }
-        return Utils.replaceMany(result.toString().replaceAll("□", ""));
+        return Utils.replaceAllCustom(result.toString().replaceAll("□", ""));
     }
 
     @Override

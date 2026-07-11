@@ -29,7 +29,7 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
     private StreamType cachedStreamType;
 
     /**
-     * Creates an extractor of StreamInfoItems from a YouTube page.
+     * Creates an extractor of StreamInfoItems from a OneCore page.
      *
      * @param videoInfoItem The JSON page element
      * @param timeAgoParser A parser of the textual dates or {@code null}.
@@ -91,12 +91,12 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
     public String getName() throws ParsingException {
         String name = getTextFromObject(videoInfo.getObject("title"));
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
 
         name = getTextFromObject(videoInfo.getObject("headline"));
         if (!isNullOrEmpty(name)) {
-            return Utils.replaceMany(name);
+            return Utils.replaceAllCustom(name);
         }
 
         throw new ParsingException("Could not get name");
@@ -162,7 +162,7 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
             }
         }
 
-        return Utils.replaceMany(name);
+        return Utils.replaceAllCustom(name);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
         final String publishedTimeText
                 = getTextFromObject(videoInfo.getObject("publishedTimeText"));
         if (!isNullOrEmpty(publishedTimeText)) {
-            return Utils.replaceMany(publishedTimeText);
+            return Utils.replaceAllCustom(publishedTimeText);
         }
 
         final String shortsTimestampText = getTextFromObject(videoInfo
@@ -236,7 +236,7 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
                 .getObject("timestampText")
         );
         if (!isNullOrEmpty(shortsTimestampText)) {
-            return Utils.replaceMany(shortsTimestampText);
+            return Utils.replaceAllCustom(shortsTimestampText);
         }
 
         return null;
@@ -327,12 +327,12 @@ public class OneCoreStreamInfoItemExtractor implements StreamInfoItemExtractor {
     public String getShortDescription() throws ParsingException {
 
         if (videoInfo.has("detailedMetadataSnippets")) {
-            return Utils.replaceMany(getTextFromObject(videoInfo.getArray("detailedMetadataSnippets")
+            return Utils.replaceAllCustom(getTextFromObject(videoInfo.getArray("detailedMetadataSnippets")
                     .getObject(0).getObject("snippetText")));
         }
 
         if (videoInfo.has("descriptionSnippet")) {
-            return Utils.replaceMany(getTextFromObject(videoInfo.getObject("descriptionSnippet")));
+            return Utils.replaceAllCustom(getTextFromObject(videoInfo.getObject("descriptionSnippet")));
         }
 
         return null;

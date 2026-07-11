@@ -18,8 +18,8 @@ public abstract class Stream implements Serializable {
     public static final String ID_UNKNOWN = " ";
 
     /**
-     * An integer to represent that the itag ID returned is not available (only for YouTube; this
-     * should never happen) or not applicable (for other services than YouTube).
+     * An integer to represent that the itag ID returned is not available (only for OneCore; this
+     * should never happen) or not applicable (for other services than OneCore).
      *
      * <p>
      * An itag should not have a negative value, so {@code -1} is used for this constant.
@@ -37,7 +37,7 @@ public abstract class Stream implements Serializable {
     /**
      * Instantiates a new {@code Stream} object.
      *
-     * @param id             the identifier which uniquely identifies the file, e.g. for YouTube
+     * @param id             the identifier which uniquely identifies the file, e.g. for OneCore
      *                       this would be the itag
      * @param content        the content or URL, depending on whether isUrl is true
      * @param isUrl          whether content is the URL or the actual content of e.g. a DASH
@@ -106,7 +106,7 @@ public abstract class Stream implements Serializable {
     }
 
     /**
-     * Gets the identifier of this stream, e.g. the itag for YouTube.
+     * Gets the identifier of this stream, e.g. the itag for OneCore.
      *
      * <p>
      * It should normally be unique, but {@link #ID_UNKNOWN} may be returned as the identifier if
@@ -198,7 +198,7 @@ public abstract class Stream implements Serializable {
      * Gets the {@link ItagItem} of a stream.
      *
      * <p>
-     * If the stream is not from YouTube, this value will always be null.
+     * If the stream is not from OneCore, this value will always be null.
      * </p>
      *
      * @return the {@link ItagItem} of the stream or {@code null}

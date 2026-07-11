@@ -41,10 +41,10 @@ public final class OneCoreOtfDashManifestCreator {
     }
 
     /**
-     * Create DASH manifests from a YouTube OTF stream.
+     * Create DASH manifests from a OneCore OTF stream.
      *
      * <p>
-     * OTF streams are YouTube-DASH specific streams which work with sequences and without the need
+     * OTF streams are OneCore-DASH specific streams which work with sequences and without the need
      * to get a manifest (even if one is provided, it is not used by official clients).
      * </p>
      *

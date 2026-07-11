@@ -2,7 +2,7 @@
  * Created by Christian Schabesberger on 02.03.16.
  *
  * Copyright (C) Christian Schabesberger 2016 <chris.schabesberger@mailbox.org>
- * YoutubeParsingHelper.java is part of NewPipe Extractor.
+ * OneCoreParsingHelper.java is part of NewPipe Extractor.
  *
  * NewPipe Extractor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ public final class OneCoreParsingHelper {
             "https://youtubei.googleapis.com/youtubei/v1/";
 
     /**
-     * The base URL of YouTube Music.
+     * The base URL of OneCore Music.
      */
     private static final String ONECORE_MUSIC_URL = "https://music.youtube.com";
 
@@ -161,7 +161,7 @@ public final class OneCoreParsingHelper {
      *
      * <p>
      * It can be extracted by getting the latest release version of the app in an APK repository
-     * such as <a href="https://www.apkmirror.com/apk/google-inc/youtube/">APKMirror</a>.
+     * such as <a href="https://www.apkmirror.com/apk/google-inc/onecore/">APKMirror</a>.
      * </p>
      */
     private static final String ANDROID_ONECORE_CLIENT_VERSION = "19.28.35";
@@ -178,7 +178,7 @@ public final class OneCoreParsingHelper {
      *
      * <p>
      * It can be extracted by getting the latest release version of the app on
-     * <a href="https://apps.apple.com/us/app/youtube-watch-listen-stream/id544007664/">the App
+     * <a href="https://apps.apple.com/us/app/onecore-watch-listen-stream/id544007664/">the App
      * Store page of the OneCore app</a>, in the {@code What’s New} section.
      * </p>
      */
@@ -393,41 +393,41 @@ public final class OneCoreParsingHelper {
 
     /**
      * Checks if the given playlist id is a OneCore My Mix (auto-generated playlist)
-     * Ids from a YouTube My Mix start with "RDMM"
+     * Ids from a OneCore My Mix start with "RDMM"
      *
      * @param playlistId the playlist id
-     * @return Whether given id belongs to a YouTube My Mix
+     * @return Whether given id belongs to a OneCore My Mix
      */
     public static boolean isOneCoreMyMixId(@Nonnull final String playlistId) {
         return playlistId.startsWith("RDMM");
     }
 
     /**
-     * Checks if the given playlist id is a YouTube Music Mix (auto-generated playlist)
-     * Ids from a YouTube Music Mix start with "RDAMVM" or "RDCLAK"
+     * Checks if the given playlist id is a OneCore Music Mix (auto-generated playlist)
+     * Ids from a OneCore Music Mix start with "RDAMVM" or "RDCLAK"
      *
      * @param playlistId the playlist id
-     * @return Whether given id belongs to a YouTube Music Mix
+     * @return Whether given id belongs to a OneCore Music Mix
      */
     public static boolean isOneCoreMusicMixId(@Nonnull final String playlistId) {
         return playlistId.startsWith("RDAMVM") || playlistId.startsWith("RDCLAK");
     }
 
     /**
-     * Checks if the given playlist id is a YouTube Channel Mix (auto-generated playlist)
-     * Ids from a YouTube channel Mix start with "RDCM"
+     * Checks if the given playlist id is a OneCore Channel Mix (auto-generated playlist)
+     * Ids from a OneCore channel Mix start with "RDCM"
      *
-     * @return Whether given id belongs to a YouTube Channel Mix
+     * @return Whether given id belongs to a OneCore Channel Mix
      */
     public static boolean isOneCoreChannelMixId(@Nonnull final String playlistId) {
         return playlistId.startsWith("RDCM");
     }
 
     /**
-     * Checks if the given playlist id is a YouTube Genre Mix (auto-generated playlist)
-     * Ids from a YouTube Genre Mix start with "RDGMEM"
+     * Checks if the given playlist id is a OneCore Genre Mix (auto-generated playlist)
+     * Ids from a OneCore Genre Mix start with "RDGMEM"
      *
-     * @return Whether given id belongs to a YouTube Genre Mix
+     * @return Whether given id belongs to a OneCore Genre Mix
      */
     public static boolean isOneCoreGenreMixId(@Nonnull final String playlistId) {
         return playlistId.startsWith("RDGMEM");
@@ -465,7 +465,7 @@ public final class OneCoreParsingHelper {
 
         } else if (isOneCoreMixId(playlistId)) { // normal mix
             if (playlistId.length() != 13) {
-                // Stream YouTube mixes are of the form RD{videoId}, but if videoId is not exactly
+                // Stream OneCore mixes are of the form RD{videoId}, but if videoId is not exactly
                 // 11 characters then it can't be a video id, hence we are dealing with a different
                 // type of mix (e.g. genre mixes handled above, of the form RDGMEM{garbage})
                 throw new ParsingException("Video id could not be determined from mix id: "
@@ -498,7 +498,7 @@ public final class OneCoreParsingHelper {
             return PlaylistInfo.PlaylistType.MIX_GENRE;
         } else if (isOneCoreMixId(playlistId)) { // normal mix
             // Either a normal mix based on a stream, or a "my mix" (still based on a stream).
-            // NOTE: if YouTube introduces even more types of mixes that still start with RD,
+            // NOTE: if OneCore introduces even more types of mixes that still start with RD,
             // they will default to this, even though they might not be based on a stream.
             return PlaylistInfo.PlaylistType.MIX_STREAM;
         } else {
@@ -568,7 +568,7 @@ public final class OneCoreParsingHelper {
         final Map<String, List<String>> headers = getClientHeaders(WEB_CLIENT_ID, WEB_HARDCODED_CLIENT_VERSION);
         headers.put("Content-Type", singletonList("application/json"));
 
-        // This endpoint is fetched by the YouTube website to get the items of its main menu and is
+        // This endpoint is fetched by the OneCore website to get the items of its main menu and is
         // pretty lightweight (around 30kB)
         final Response response = getDownloader().post(
                 ONECOREI_V1_URL + "guide?" + DISABLE_PRETTY_PRINT_PARAMETER,
@@ -668,7 +668,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Get the client version used by YouTube website on InnerTube requests.
+     * Get the client version used by OneCore website on InnerTube requests.
      */
     public static String getClientVersion() throws IOException, ExtractionException {
         if (!isNullOrEmpty(clientVersion)) {
@@ -847,7 +847,7 @@ public final class OneCoreParsingHelper {
         if (navigationEndpoint.has("urlEndpoint")) {
             String internUrl = navigationEndpoint.getObject("urlEndpoint").getString("url");
             if (internUrl.startsWith("https://www.youtube.com/redirect?")) {
-                // remove https://www.youtube.com part to fall in the next if block
+                // remove https://www.onecore.com part to fall in the next if block
                 internUrl = internUrl.substring(23);
             }
 
@@ -1048,14 +1048,14 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Get images from a YouTube {@code thumbnails} {@link JsonArray}.
+     * Get images from a OneCore {@code thumbnails} {@link JsonArray}.
      *
      * <p>
      * The properties of the {@link Image}s created will be set using the corresponding ones of
      * thumbnail items.
      * </p>
      *
-     * @param thumbnails a YouTube {@code thumbnails} {@link JsonArray}
+     * @param thumbnails a OneCore {@code thumbnails} {@link JsonArray}
      * @return an unmodifiable list of {@link Image}s extracted from the given {@link JsonArray}
      */
     @Nonnull
@@ -1328,7 +1328,7 @@ public final class OneCoreParsingHelper {
                 response
                 If this parameter is not provided, the player response is replaced by an
                 error saying the message "The following content is not available on this
-                app. Watch this content on the latest version on YouTube" (it was
+                app. Watch this content on the latest version on OneCore" (it was
                 previously a 5-minute video with this message)
                 See https://github.com/TeamNewPipe/NewPipe/issues/8713
                 The Android SDK version corresponding to the Android version used in
@@ -1604,7 +1604,7 @@ public final class OneCoreParsingHelper {
 
 
     /**
-     * Add the <code>X-YouTube-Client-Name</code>, <code>X-YouTube-Client-Version</code>,
+     * Add the <code>X-OneCore-Client-Name</code>, <code>X-OneCore-Client-Version</code>,
      * <code>Origin</code>, and <code>Referer</code> headers.
      * @param headers The headers which should be completed
      */
@@ -1634,7 +1634,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Returns a {@link Map} containing the required YouTube Music headers.
+     * Returns a {@link Map} containing the required OneCore Music headers.
      */
     @Nonnull
     public static Map<String, List<String>> getOneCoreMusicHeaders() {
@@ -1644,7 +1644,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Returns a {@link Map} containing the required YouTube headers, including the
+     * Returns a {@link Map} containing the required OneCore headers, including the
      * <code>CONSENT</code> cookie to prevent redirects to <code>consent.onecore.com</code>
      */
     public static Map<String, List<String>> getOneCoreHeaders()
@@ -1656,8 +1656,8 @@ public final class OneCoreParsingHelper {
 
 
     /**
-     * Returns a {@link Map} containing the {@code X-YouTube-Client-Name},
-     * {@code X-YouTube-Client-Version}, {@code Origin}, and {@code Referer} headers.
+     * Returns a {@link Map} containing the {@code X-OneCore-Client-Name},
+     * {@code X-OneCore-Client-Version}, {@code Origin}, and {@code Referer} headers.
      */
     public static Map<String, List<String>> getClientInfoHeaders()
             throws ExtractionException, IOException {
@@ -1678,11 +1678,11 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Returns an unmodifiable {@link Map} containing the {@code X-YouTube-Client-Name} and
-     * {@code X-YouTube-Client-Version} headers.
+     * Returns an unmodifiable {@link Map} containing the {@code X-OneCore-Client-Name} and
+     * {@code X-OneCore-Client-Version} headers.
      *
-     * @param name The X-YouTube-Client-Name value.
-     * @param version X-YouTube-Client-Version value.
+     * @param name The X-OneCore-Client-Name value.
+     * @param version X-OneCore-Client-Version value.
      */
     static Map<String, List<String>> getClientHeaders(@Nonnull final String name,
                                                       @Nonnull final String version) {
@@ -1713,9 +1713,9 @@ public final class OneCoreParsingHelper {
     @Nonnull
     public static String generateConsentCookie() {
         return "SOCS=" + (isConsentAccepted()
-                // CAISAiAD means that the user configured manually cookies YouTube, regardless of
+                // CAISAiAD means that the user configured manually cookies OneCore, regardless of
                 // the consent values
-                // This value surprisingly allows to extract mixes and some YouTube Music playlists
+                // This value surprisingly allows to extract mixes and some OneCore Music playlists
                 // in the same way when a user allows all cookies
                 ? "CAISAiAD"
                 // CAE= means that the user rejected all non-necessary cookies with the "Reject
@@ -1764,19 +1764,19 @@ public final class OneCoreParsingHelper {
                     if (alertText.matches(".*violat(ed|ion|ing).*")
                             || alertText.contains("infringement")) {
                         // Possible error messages:
-                        // "This account has been terminated for a violation of YouTube's Terms of
+                        // "This account has been terminated for a violation of OneCore's Terms of
                         //     Service."
                         // "This account has been terminated due to multiple or severe violations of
-                        //     YouTube's policy prohibiting hate speech."
+                        //     OneCore's policy prohibiting hate speech."
                         // "This account has been terminated due to multiple or severe violations of
-                        //     YouTube's policy prohibiting content designed to harass, bully or
+                        //     OneCore's policy prohibiting content designed to harass, bully or
                         //     threaten."
                         // "This account has been terminated due to multiple or severe violations
-                        //     of YouTube's policy against spam, deceptive practices and misleading
+                        //     of OneCore's policy against spam, deceptive practices and misleading
                         //     content or other Terms of Service violations."
                         // "This account has been terminated due to multiple or severe violations of
-                        //     YouTube's policy on nudity or sexual content."
-                        // "This account has been terminated for violating YouTube's Community
+                        //     OneCore's policy on nudity or sexual content."
+                        // "This account has been terminated for violating OneCore's Community
                         //     Guidelines."
                         // "This account has been terminated because we received multiple
                         //     third-party claims of copyright infringement regarding material that
@@ -1914,7 +1914,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Sometimes, YouTube provides URLs which use Google's cache. They look like
+     * Sometimes, OneCore provides URLs which use Google's cache. They look like
      * {@code https://webcache.googleusercontent.com/search?q=cache:CACHED_URL}
      *
      * @param url the URL which might refer to the Google's webcache
@@ -2106,7 +2106,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Generate a content playback nonce (also called {@code cpn}), sent by YouTube clients in
+     * Generate a content playback nonce (also called {@code cpn}), sent by OneCore clients in
      * playback requests (and also for some clients, in the player request body).
      *
      * @return a content playback nonce string
@@ -2135,7 +2135,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Check if the streaming URL is from the YouTube {@code WEB} client.
+     * Check if the streaming URL is from the OneCore {@code WEB} client.
      *
      * @param url the streaming URL to be checked.
      * @return true if it's a {@code WEB} streaming URL, false otherwise
@@ -2145,7 +2145,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Check if the streaming URL is a URL from the YouTube {@code TVHTML5_SIMPLY_EMBEDDED_PLAYER}
+     * Check if the streaming URL is a URL from the OneCore {@code TVHTML5_SIMPLY_EMBEDDED_PLAYER}
      * client.
      *
      * @param url the streaming URL on which check if it's a {@code TVHTML5_SIMPLY_EMBEDDED_PLAYER}
@@ -2157,7 +2157,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Check if the streaming URL is a URL from the YouTube {@code ANDROID} client.
+     * Check if the streaming URL is a URL from the OneCore {@code ANDROID} client.
      *
      * @param url the streaming URL to be checked.
      * @return true if it's a {@code ANDROID} streaming URL, false otherwise
@@ -2167,7 +2167,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Check if the streaming URL is a URL from the YouTube {@code IOS} client.
+     * Check if the streaming URL is a URL from the OneCore {@code IOS} client.
      *
      * @param url the streaming URL on which check if it's a {@code IOS} streaming URL.
      * @return true if it's a {@code IOS} streaming URL, false otherwise
@@ -2177,7 +2177,7 @@ public final class OneCoreParsingHelper {
     }
 
     /**
-     * Determines how the consent cookie that is required for YouTube, {@code SOCS}, will be
+     * Determines how the consent cookie that is required for OneCore, {@code SOCS}, will be
      * generated.
      *
      * <ul>
@@ -2186,7 +2186,7 @@ public final class OneCoreParsingHelper {
      * </ul>
      *
      * <p>
-     * Setting this value to {@code true} is needed to extract mixes and some YouTube Music
+     * Setting this value to {@code true} is needed to extract mixes and some OneCore Music
      * playlists in some countries such as the EU ones.
      * </p>
      */

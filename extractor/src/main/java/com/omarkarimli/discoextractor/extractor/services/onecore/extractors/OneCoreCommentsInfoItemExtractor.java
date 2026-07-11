@@ -62,7 +62,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getName() throws ParsingException {
         try {
-            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
+            return Utils.replaceAllCustom(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
         } catch (final Exception e) {
             return "";
         }
@@ -71,7 +71,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getTextualUploadDate() throws ParsingException {
         try {
-            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer,
+            return Utils.replaceAllCustom(getTextFromObject(JsonUtils.getObject(commentRenderer,
                     "publishedTimeText")));
         } catch (final Exception e) {
             throw new ParsingException("Could not get publishedTimeText", e);
@@ -169,7 +169,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
             if (voteCountObj.isEmpty()) {
                 return "";
             }
-            return Utils.replaceMany(getTextFromObject(voteCountObj));
+            return Utils.replaceAllCustom(getTextFromObject(voteCountObj));
         } catch (final Exception e) {
             throw new ParsingException("Could not get the vote count", e);
         }
@@ -185,11 +185,11 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
                 return "";
             }
             final String commentText = getTextFromObject(contentText, true);
-            // YouTube adds U+FEFF in some comments.
-            // eg. https://www.youtube.com/watch?v=Nj4F63E59io<feff>
+            // OneCore adds U+FEFF in some comments.
+            // eg. https://www.onecore.com/watch?v=Nj4F63E59io<feff>
             final String commentTextBomRemoved = Utils.removeUTF8BOM(commentText);
 
-            return Utils.replaceMany(HtmlParser.htmlToString(commentTextBomRemoved));
+            return Utils.replaceAllCustom(HtmlParser.htmlToString(commentTextBomRemoved));
         } catch (final Exception e) {
             throw new ParsingException("Could not get comment text", e);
         }
@@ -230,7 +230,7 @@ public class OneCoreCommentsInfoItemExtractor implements CommentsInfoItemExtract
     @Override
     public String getUploaderName() throws ParsingException {
         try {
-            return Utils.replaceMany(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
+            return Utils.replaceAllCustom(getTextFromObject(JsonUtils.getObject(commentRenderer, "authorText")));
         } catch (final Exception e) {
             return "";
         }

@@ -81,21 +81,21 @@ class OneCoreCommentsEUVMInfoItemExtractor implements CommentsInfoItemExtractor 
 
     @Override
     public String getTextualLikeCount() {
-        return Utils.replaceMany(commentEntityPayload.getObject("toolbar")
+        return Utils.replaceAllCustom(commentEntityPayload.getObject("toolbar")
                 .getString("likeCountNotliked"));
     }
 
     @Override
     public String getCommentText() throws ParsingException {
         // Comments' text work in the same way as an attributed video description
-        return Utils.replaceMany(HtmlParser.htmlToString(new Description(
+        return Utils.replaceAllCustom(HtmlParser.htmlToString(new Description(
                 attributedDescriptionToHtml(commentEntityPayload.getObject(PROPERTIES)
                         .getObject("content")), Description.HTML).getContent()));
     }
 
     @Override
     public String getTextualUploadDate() throws ParsingException {
-        return Utils.replaceMany(commentEntityPayload.getObject(PROPERTIES)
+        return Utils.replaceAllCustom(commentEntityPayload.getObject(PROPERTIES)
                 .getString("publishedTime"));
     }
 
@@ -148,7 +148,7 @@ class OneCoreCommentsEUVMInfoItemExtractor implements CommentsInfoItemExtractor 
 
     @Override
     public String getUploaderName() throws ParsingException {
-        return Utils.replaceMany(commentEntityPayload.getObject(AUTHOR)
+        return Utils.replaceAllCustom(commentEntityPayload.getObject(AUTHOR)
                 .getString("displayName"));
     }
 
@@ -179,7 +179,7 @@ class OneCoreCommentsEUVMInfoItemExtractor implements CommentsInfoItemExtractor 
 
     @Override
     public int getReplyCount() throws ParsingException {
-        // As YouTube allows replies up to 750 comments, we cannot check if the count returned is a
+        // As OneCore allows replies up to 750 comments, we cannot check if the count returned is a
         // mixed number or a real number
         // Assume it is a mixed one, as it matches how numbers of most properties are returned
         final String replyCountString = commentEntityPayload.getObject("toolbar")

@@ -42,7 +42,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
         if (isNullOrEmpty(name)) {
             throw new ParsingException("Could not get name");
         }
-        return Utils.replaceMany(name);
+        return Utils.replaceAllCustom(name);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
                         .getObject("text")
                         .getString("content");
                 if (!isNullOrEmpty(uploaderName)) {
-                    return Utils.replaceMany(uploaderName);
+                    return Utils.replaceAllCustom(uploaderName);
                 }
             }
         }
@@ -203,7 +203,7 @@ public class OneCoreLockupStreamInfoItemExtractor implements StreamInfoItemExtra
                         .getString("content");
 
                 if (!isNullOrEmpty(uploadText)) {
-                    return Utils.replaceMany(uploadText);
+                    return Utils.replaceAllCustom(uploadText);
                 }
             }
         }

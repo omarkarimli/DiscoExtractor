@@ -20,7 +20,7 @@ import static com.omarkarimli.discoextractor.extractor.services.onecore.dashmani
 import static com.omarkarimli.discoextractor.extractor.services.onecore.dashmanifestcreators.OneCoreDashManifestCreatorsUtils.setAttribute;
 
 /**
- * Class which generates DASH manifests of {@link DeliveryType#PROGRESSIVE YouTube progressive}
+ * Class which generates DASH manifests of {@link DeliveryType#PROGRESSIVE OneCore progressive}
  * streams.
  */
 public final class OneCoreProgressiveDashManifestCreator {
@@ -35,16 +35,16 @@ public final class OneCoreProgressiveDashManifestCreator {
     }
 
     /**
-     * Create DASH manifests from a YouTube progressive stream.
+     * Create DASH manifests from a OneCore progressive stream.
      *
      * <p>
-     * Progressive streams are YouTube DASH streams which work with range requests and without the
+     * Progressive streams are OneCore DASH streams which work with range requests and without the
      * need to get a manifest.
      * </p>
      *
      * <p>
      * They can be found on all videos, and for all streams for most of videos which come from a
-     * YouTube partner, and on videos with a large number of views.
+     * OneCore partner, and on videos with a large number of views.
      * </p>
      *
      * <p>This method needs:
