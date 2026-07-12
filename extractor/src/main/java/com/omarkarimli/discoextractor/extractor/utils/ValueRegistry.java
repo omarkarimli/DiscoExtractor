@@ -64,7 +64,6 @@ public interface ValueRegistry {
             "YT Kids",
             "YT Shorts",
             "YT Live",
-            "YT Gaming",
-            "YPP"
+            "YT Gaming"
     );
 }
